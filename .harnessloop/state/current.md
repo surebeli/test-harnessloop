@@ -1,16 +1,16 @@
 # Current State
 
-- Active goal:
-- Active round:
-- Current feedback:
-- Blocker type:
-- Recovery eligible:
-- Open handoffs:
-- Last accepted round:
-- Next proposed action:
-- Next action safety: read-only | write | external-trigger | human-decision | unknown
-- Human decision requirement:
-- Blocking reason:
-- Recovery round:
-- Imported intake path:
-- State sources:
+- Active goal: 20260716-001-setup-wizard
+- Active round: 0004（live-acceptance，待用户；scope-lock v1）
+- Current feedback: positive（round 0003，见 rounds/0003/decision.md）
+- Blocker type: none
+- Recovery eligible: yes（不适用，无 blocker）
+- Open handoffs: 无（round 0003 四个 handoff 已闭合归档至 rounds/0003/archive/；round 0004 尚未开新委派型 handoff——下一步是用户亲自执行 wizard，非委派给子代理）
+- Last accepted round: 0003
+- Next proposed action: 用户 live 首跑——用户重启会话运行 `$harnessloop-setup` 完成本项目首次 wizard 五步（S4 live acceptance），并在此过程中确认三档预设默认值与"7/7→8/8"阈值表述更新
+- Next action safety: human-decision（核心动作依赖用户亲自执行，主会话无法代为完成）
+- Human decision requirement: 用户重启会话运行 `$harnessloop-setup` 首跑（五步对话流走通 + check_setup 复核本项目返回 complete）；确认三档预设（lite/standard/strict）默认值最终措辞（goal.md Required Human Decisions）；确认 thresholds.md 与 setup/data-sources.md 中"npm run validate 7/7"→"8/8"阈值表述更新（round 0003 已使 validate 落地 8 阶段，相关文本待用户确认后同步）
+- Blocking reason: 无（非阻断状态；等待用户执行下一动作，非协议 stop condition）
+- Recovery round: 无
+- Imported intake path: 不适用（非接管）
+- State sources: .harnessloop/goals/20260716-001-setup-wizard/goal.md; .harnessloop/goals/20260716-001-setup-wizard/goal-breakdown.md; .harnessloop/goals/20260716-001-setup-wizard/thresholds.md; .harnessloop/goals/20260716-001-setup-wizard/data-contract.md; .harnessloop/goals/20260716-001-setup-wizard/feedback-policy.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0001/round-summary.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0001/decision.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0001/reviews/adversarial-review.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0001/archive/0001-01-execute-design-draft-closed.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0001/archive/0001-02-review-adversarial-design-closed.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0002/round-summary.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0002/decision.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0002/reviews/adversarial-review.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0002/evidence/dynamic/setup-wizard-design-v2.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0002/archive/0002-01-execute-design-revision-closed.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0002/archive/0002-02-review-adversarial-design-v2-closed.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0003/scope-lock.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0003/round-summary.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0003/decision.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0003/reviews/adversarial-review.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0003/archive/0003-01-execute-new-skill-and-profiles-closed.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0003/archive/0003-02-execute-check-setup-and-validate-closed.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0003/archive/0003-03-execute-wiring-and-version-closed.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0003/archive/0003-04-review-adversarial-implementation-closed.md; .harnessloop/goals/20260716-001-setup-wizard/rounds/0004/scope-lock.md; .harnessloop/meta/evolution-issues/0006-verify-protocol-pathish-false-positives.md; .harnessloop/meta/evolution-issues/0007-verify-rule-b-missing-harnessloop-base.md; .harnessloop/meta/evolution-issues/0008-verify-rule-b-fragment-citations.md; .harnessloop/meta/self-audit.md; .harnessloop/state/control-contract.md; .harnessloop/state/environment.md; .harnessloop/setup/data-sources.md; .harnessloop/setup/cost-context-policy.md; .harnessloop/state/evidence-index.md

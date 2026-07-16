@@ -2,25 +2,25 @@
 
 ## Audit Metadata
 
-- Audit ID:
-- Trigger: setup | pre-continue | post-feedback | scheduled | pre-blocked
-- Active goal:
-- Active round:
-- Auditor:
-- Timestamp:
+- Audit ID: AUDIT-20260716-SETUP
+- Trigger: setup
+- Active goal: 20260716-001-setup-wizard
+- Active round: 无（breakdown 前）
+- Auditor: main session（claude-fable-5）
+- Timestamp: 2026-07-16
 
 ## Loop Health
 
 | Check | Status | Evidence path | Notes |
 | --- | --- | --- | --- |
-| Dead loop risk | pass |  |  |
-| Self-contradiction | pass |  |  |
-| Goal drift | pass |  |  |
-| Evidence drift | pass |  |  |
-| Validation drift | pass |  |  |
-| Handoff stagnation | pass |  |  |
-| Cost/context runaway | pass |  |  |
-| Recoverable blocker stalled | pass |  |  |
+| Dead loop risk | pass |  | 无死循环风险（首个 goal，无历史轮次可循环） |
+| Self-contradiction | pass |  | 无矛盾 |
+| Goal drift | pass |  | goal/契约版本 v1（无历史可漂移） |
+| Evidence drift | pass | .harnessloop/state/evidence-index.md | stale evidence 0 |
+| Validation drift | pass |  | goal/契约版本 v1，首次建立无历史基线可比 |
+| Handoff stagnation | pass |  | open handoff 0 |
+| Cost/context runaway | pass |  | context 风险低（大文件走 handoff） |
+| Recoverable blocker stalled | pass |  | 无 blocker（首个 goal） |
 
 Status values: `pass`, `warn`, `fail`, `unknown`.
 
@@ -28,31 +28,214 @@ Status values: `pass`, `warn`, `fail`, `unknown`.
 
 | Signal | Current value | Previous value | Threshold | Status |
 | --- | --- | --- | --- | --- |
-| Recent feedback sequence |  |  | no repeated neutral/negative without new evidence | unknown |
-| Repeated next action count |  |  | max 2 identical actions | unknown |
-| Scope-lock version |  |  | must change after failed action unless rollback | unknown |
-| Goal contract version/hash |  |  | no silent change | unknown |
-| Threshold version/hash |  |  | no silent change | unknown |
-| Data contract version/hash |  |  | no silent change | unknown |
-| Verification command set |  |  | no silent change | unknown |
-| Stale evidence count |  |  | 0 for acceptance | unknown |
-| Open handoff age |  |  | project-defined | unknown |
-| Main-session raw context risk |  |  | raw logs stay in evidence files | unknown |
-| Delegation model/effort verified |  |  | required for high-risk delegation | unknown |
-| Recoverable blocker next action |  |  | read-only investigation before user pause | unknown |
+| Recent feedback sequence | 无（首个 goal，无历史反馈） | 无 | no repeated neutral/negative without new evidence | pass |
+| Repeated next action count | 1（完成 goal-breakdown 后开 round 0001） | 无 | max 2 identical actions | pass |
+| Scope-lock version | v1 | 无 | must change after failed action unless rollback | pass |
+| Goal contract version/hash | v1 | 无 | no silent change | pass |
+| Threshold version/hash | v1 | 无 | no silent change | pass |
+| Data contract version/hash | v1 | 无 | no silent change | pass |
+| Verification command set | npm run validate / verify_protocol.py / plugin-reinstall.sh | 无 | no silent change | pass |
+| Stale evidence count | 0 | 无 | 0 for acceptance | pass |
+| Open handoff age | 0（open handoff 0） | 无 | project-defined | pass |
+| Main-session raw context risk | 低（大文件走 handoff） | 无 | raw logs stay in evidence files | pass |
+| Delegation model/effort verified | P0 批次已实证（docs/validation-log.md 2026-07-16）；环境自检 pass 含 subagent 模型验证局限 | 无 | required for high-risk delegation | pass |
+| Recoverable blocker next action | 不适用（无 blocker） | 无 | read-only investigation before user pause | pass |
 
 ## Local Repair Decision
 
-- Required repair:
-- Smallest safe next action:
-- Blocker type:
-- Recovery eligible:
-- Human confirmation required:
-- Block execution until repaired:
+- Required repair: 无
+- Smallest safe next action: 完成 goal-breakdown 后开 round 0001（design）
+- Blocker type: 无
+- Recovery eligible: 不适用
+- Human confirmation required: 否
+- Block execution until repaired: 否
 
 ## Evolution Issue Decision
 
-- Create upstream evolution issue: yes | no
-- Reason:
-- Issue path:
-- Redaction notes:
+- Create upstream evolution issue: no
+- Reason: 本次为记录员任务（setup 骨架填写），非审查，未发现新框架缺陷
+- Issue path: 无
+- Redaction notes: 无
+
+---
+
+# Self Audit
+
+## Audit Metadata
+
+- Audit ID: AUDIT-20260716-ROUND0001-NEGATIVE
+- Trigger: post-feedback
+- Active goal: 20260716-001-setup-wizard
+- Active round: 0001
+- Auditor: main session（claude-fable-5）
+- Timestamp: 2026-07-16
+
+## Loop Health
+
+| Check | Status | Evidence path | Notes |
+| --- | --- | --- | --- |
+| Dead loop risk | pass | rounds/0001/reviews/adversarial-review.md; rounds/0001/decision.md | 首个 negative，修复方向明确且 scope 收窄（3 处 M1-M3 均为设计文本级最小修复，未推翻五步架构/check_setup 接口/接线方案） |
+| Self-contradiction | pass |  | 决定（decision.md）与评审依据（adversarial-review.md）一致，无矛盾 |
+| Goal drift | pass |  | goal.md 8 条 acceptance criteria 未被评审证伪，未变更 |
+| Evidence drift | pass | .harnessloop/state/evidence-index.md | stale evidence 0 |
+| Validation drift | pass | .harnessloop/meta/evolution-issues/0006-verify-protocol-pathish-false-positives.md | 发现框架级问题一项：verify_protocol.py Rule B 对本轮评审文件 6 条 dangling-citation 全部误报（作者已知缺陷 nm11 的实战坐实），已记 TH-0006；不影响本轮 negative 决策有效性 |
+| Handoff stagnation | pass |  | round 0001 两个 handoff 已闭合归档（rounds/0001/archive/），round 0002 两个新 handoff 刚开，无停滞 |
+| Cost/context runaway | pass |  | 设计稿/评审全文走文件，主会话仅摘要引用；round_cost.py 已记账（见 round-summary.md Cost 节） |
+| Recoverable blocker stalled | pass |  | 无 blocker（negative 走 minimal-fix 路径，非 blocker 分类） |
+
+Status values: `pass`, `warn`, `fail`, `unknown`.
+
+## Deterministic Signals
+
+| Signal | Current value | Previous value | Threshold | Status |
+| --- | --- | --- | --- | --- |
+| Recent feedback sequence | negative（round 0001，首次出现） | 无 | no repeated neutral/negative without new evidence | pass |
+| Repeated next action count | 1（开 round 0002 执行设计修订） | 1（执行 0001-01 设计稿撰写） | max 2 identical actions | pass |
+| Scope-lock version | round 0002 v1（新版本） | round 0001 v1 | must change after failed action unless rollback | pass |
+| Goal contract version/hash | v1（未变） | v1 | no silent change | pass |
+| Threshold version/hash | v1（未变） | v1 | no silent change | pass |
+| Data contract version/hash | v1（未变） | v1 | no silent change | pass |
+| Verification command set | npm run validate / verify_protocol.py / plugin-reinstall.sh（未变） | 同左 | no silent change | pass |
+| Stale evidence count | 0 | 0 | 0 for acceptance | pass |
+| Open handoff age | 0（round 0001 两个 handoff 已闭合归档，round 0002 两个新 handoff 刚开） | 0 | project-defined | pass |
+| Main-session raw context risk | 低（设计稿/评审全文走文件，主会话仅摘要） | 低 | raw logs stay in evidence files | pass |
+| Delegation model/effort verified | 设计者 claude-sonnet-5、评审者独立子代理均按委派参数指定，无独立运行时探针（同 state/environment.md 局限） | 同左 | required for high-risk delegation | pass |
+| Recoverable blocker next action | 不适用（无 blocker，negative 走 minimal-fix 而非 blocker 路径） | 不适用 | read-only investigation before user pause | pass |
+
+## Local Repair Decision
+
+- Required repair: 设计稿修订（M1-M3 必须修复 + S1-S10 建议修复），见 rounds/0001/decision.md
+- Smallest safe next action: 开 round 0002，执行 0002-01（设计修订 handoff）
+- Blocker type: none
+- Recovery eligible: yes
+- Human confirmation required: 否（修复方向已由主会话拍板；档位默认值最终措辞待用户 live 验收确认，非本轮开工阻塞项）
+- Block execution until repaired: 是（实现轮 round 0003 及以后在 design-v2 复审结论为 positive 前不得开工）
+
+## Evolution Issue Decision
+
+- Create upstream evolution issue: yes
+- Reason: verify_protocol.py Rule B 在首个真实轮次中对合法评审文件引用（正则模式/glob/笔误路径原文/submodule 相对路径）6/6 误报，坐实作者已知缺陷 nm11，属框架级 skill-gap（Rule B 设计时未覆盖这类合法引用书写方式）
+- Issue path: .harnessloop/meta/evolution-issues/0006-verify-protocol-pathish-false-positives.md
+- Redaction notes: 无涉密内容
+
+---
+
+# Self Audit
+
+## Audit Metadata
+
+- Audit ID: AUDIT-20260716-ROUND0002-POSITIVE
+- Trigger: post-feedback
+- Active goal: 20260716-001-setup-wizard
+- Active round: 0002
+- Auditor: main session（claude-fable-5）
+- Timestamp: 2026-07-16
+
+## Loop Health
+
+| Check | Status | Evidence path | Notes |
+| --- | --- | --- | --- |
+| Dead loop risk | pass | rounds/0002/reviews/adversarial-review.md; rounds/0002/decision.md | positive 轮，进入下一子目标（round 0003 实现），无循环 |
+| Self-contradiction | pass | rounds/0002/decision.md（裁决 a） | 主会话在 decision.md 中显式纠正两处会话转述漂移（"等核心文件"被转述为"任一文件"），避免自相矛盾被误判 |
+| Goal drift | pass | goal.md | 8 条 acceptance criteria 全部 covered，未变更目标本身；R5 为 AC8 行号引用勘误，非目标变更（见 goal.md 更新） |
+| Evidence drift | pass | .harnessloop/state/evidence-index.md | stale evidence 0；另注意：harnessloop submodule HEAD 已从 66093fd 推进至 755dde6（TH-0006/TH-0007 修复提交），.harnessloop/setup/data-sources.md 记录的 HEAD 尚未刷新，留待后续动作 |
+| Validation drift | pass | .harnessloop/meta/evolution-issues/0006-verify-protocol-pathish-false-positives.md；.harnessloop/meta/evolution-issues/0007-verify-rule-b-missing-harnessloop-base.md | 本轮暴露的框架问题两项均已闭环：TH-0006（六条误报，已修复，submodule commit 73e0093）、TH-0007（六条误报，审查报告 scripts-correctness 发现的逐字应验，已修复，submodule commit 755dde6）；两份 evolution issue 文件 Status 均已为 fixed 且含完整 Resolution；收盘时机械门 exit 0 |
+| Handoff stagnation | pass |  | round 0002 两个 handoff 已闭合归档（rounds/0002/archive/），round 0003 四个新 handoff 刚开 |
+| Cost/context runaway | pass |  | 本轮复审窗口成本已记账（见 rounds/0002/round-summary.md Cost 节） |
+| Recoverable blocker stalled | pass |  | 无 blocker |
+
+Status values: `pass`, `warn`, `fail`, `unknown`.
+
+## Deterministic Signals
+
+| Signal | Current value | Previous value | Threshold | Status |
+| --- | --- | --- | --- | --- |
+| Recent feedback sequence | positive（round 0002） | negative（round 0001） | no repeated neutral/negative without new evidence | pass |
+| Repeated next action count | 1（开 round 0003 实现） | 1（开 round 0002 设计修订） | max 2 identical actions | pass |
+| Scope-lock version | round 0003 v1（新版本） | round 0002 v1 | must change after failed action unless rollback | pass |
+| Goal contract version/hash | v1（内容含 R5 行号勘误修订，非实质性目标变更，已在本条与 decision.md 中显式记录） | v1 | no silent change | pass |
+| Threshold version/hash | v1（未变；thresholds.md 的"7/7→8/8"更新待用户确认，尚未执行） | v1 | no silent change | pass |
+| Data contract version/hash | v1（未变） | v1 | no silent change | pass |
+| Verification command set | npm run validate（8/8，待 round 0003 落地新阶段后生效）/ verify_protocol.py（exit 0）/ plugin-reinstall.sh | 同上一轮 | no silent change | pass |
+| Stale evidence count | 0 | 0 | 0 for acceptance | pass |
+| Open handoff age | 0（round 0002 两个 handoff 已闭合归档，round 0003 四个新 handoff 刚开） | 0 | project-defined | pass |
+| Main-session raw context risk | 低（v2 设计稿/复审全文走文件，主会话仅摘要引用） | 低 | raw logs stay in evidence files | pass |
+| Delegation model/effort verified | 修订者 claude-sonnet-5、复审者独立子代理均按委派参数指定，无独立运行时探针（同 state/environment.md 局限） | 同左 | required for high-risk delegation | pass |
+| Recoverable blocker next action | 不适用（无 blocker，positive 轮进入下一子目标） | 不适用 | read-only investigation before user pause | pass |
+
+## Local Repair Decision
+
+- Required repair: 无（R1-R4 作为 round 0003 实现入场条件处理，非本轮修复项）
+- Smallest safe next action: 开 round 0003，执行 0003-01（新建 skill + profiles）
+- Blocker type: none
+- Recovery eligible: 不适用
+- Human confirmation required: 否（档位默认值/7→8 阶段文本同步仍待用户验收确认，非本轮开工阻塞项）
+- Block execution until repaired: 否
+
+## Evolution Issue Decision
+
+- Create upstream evolution issue: no
+- Reason: 本轮涉及的 TH-0006/TH-0007 均已在本轮期间修复闭环（submodule commits 73e0093、755dde6），且两份 evolution issue 文件均已由修复任务自行更新为 fixed 状态，无新增框架缺陷需要记录
+- Issue path: 无新增（引用既有 .harnessloop/meta/evolution-issues/0006-verify-protocol-pathish-false-positives.md 与 0007-verify-rule-b-missing-harnessloop-base.md）
+- Redaction notes: 无
+
+---
+
+# Self Audit
+
+## Audit Metadata
+
+- Audit ID: AUDIT-20260716-ROUND0003-POSITIVE
+- Trigger: post-feedback
+- Active goal: 20260716-001-setup-wizard
+- Active round: 0003
+- Auditor: main session（claude-fable-5）
+- Timestamp: 2026-07-16
+
+## Loop Health
+
+| Check | Status | Evidence path | Notes |
+| --- | --- | --- | --- |
+| Dead loop risk | pass | rounds/0003/reviews/adversarial-review.md; rounds/0003/decision.md | 本轮内经历首次 negative（M-A/M-B/M-C）→ minimal-fix → 主会话复核 → positive；三处均为措辞/断言约束/配套补齐级最小修复，未推翻实现架构，修复方向明确，非死循环；进入下一子目标 round 0004 |
+| Self-contradiction | pass | rounds/0003/decision.md | decision.md 与 round-summary.md、adversarial-review.md 结论一致；委派模式经验（规格偏离广播遗漏）在两处表述一致，无矛盾 |
+| Goal drift | pass | goal.md | 8 条 acceptance criteria 的实现证据全部落位（评审判定），目标本身未变更；goal 尚未 100% 完成（S4 live acceptance 待用户）属既定分期规划，非漂移 |
+| Evidence drift | pass | .harnessloop/state/evidence-index.md | stale evidence 0；注意：round 0003 round-level 证据 E1-E4（见 round-summary.md Evidence Produced 表）尚未镜像进全局 evidence-index.md，为历次轮次以来的既有格局，非本轮新增缺口 |
+| Validation drift | pass | .harnessloop/meta/evolution-issues/0008-verify-rule-b-fragment-citations.md | 本轮框架发现一项：TH-0008（第三类 Rule B 误报——讨论语境中间目录相对片段，增强提案为项目树后缀匹配回退），Status=open，已用 `verify:ignore` 手工止血 3 条，不影响本轮判定；机械门收盘时 exit 0 |
+| Handoff stagnation | pass |  | round 0003 四个 handoff 已闭合归档（rounds/0003/archive/）；round 0004 尚未开新委派型 handoff（下一步是用户亲自执行 wizard，非委派） |
+| Cost/context runaway | pass |  | 本轮成本已记账（见 rounds/0003/round-summary.md Cost 节：37 input / 50,751 cache-write / 8,605,387 cache-read / 26,575 output tokens，Protocol-attributed 5/20 turns、60% output） |
+| Recoverable blocker stalled | pass |  | 无 blocker |
+
+Status values: `pass`, `warn`, `fail`, `unknown`.
+
+## Deterministic Signals
+
+| Signal | Current value | Previous value | Threshold | Status |
+| --- | --- | --- | --- | --- |
+| Recent feedback sequence | positive（round 0003；轮内经历一次首次 negative→minimal-fix→positive，非重复 neutral/negative） | positive（round 0002） | no repeated neutral/negative without new evidence | pass |
+| Repeated next action count | 1（开 round 0004，等待用户 live acceptance 首跑） | 1（开 round 0003，执行 0003-01/02/03） | max 2 identical actions | pass |
+| Scope-lock version | round 0003 v2（M-C 修复期间主会话按 control-contract 条款自主扩围，版本递增留痕）；round 0004 新建 v1 | round 0003 v1 | must change after failed action unless rollback | pass |
+| Goal contract version/hash | v1（未变） | v1 | no silent change | pass |
+| Threshold version/hash | v1（未变；thresholds.md/data-sources.md 的"7/7→8/8"更新待用户确认，尚未执行） | v1 | no silent change | pass |
+| Data contract version/hash | v1（未变） | v1 | no silent change | pass |
+| Verification command set | npm run validate（8/8，28 断言，round 0003 新阶段已生效）/ verify_protocol.py（exit 0）/ plugin-reinstall.sh | 上一轮为 7/7（待本轮落地后生效） | no silent change | pass |
+| Stale evidence count | 0 | 0 | 0 for acceptance | pass |
+| Open handoff age | 0（round 0003 四个 handoff 已闭合归档，round 0004 尚未开新 handoff） | 0 | project-defined | pass |
+| Main-session raw context risk | 低（实现产出/评审全文走文件与 handoff，主会话仅摘要引用） | 低 | raw logs stay in evidence files | pass |
+| Delegation model/effort verified | 三个并行实现子代理 + 独立评审子代理均按委派参数指定，无独立运行时探针；本轮委派模式经验一条已固化：批准的规格偏离必须同步广播给全部并行代理——todo 双字段偏离（相对 design-v2 单字段合并方案）未同步广播致 3 处接缝失配，主会话集成审查抓 2 处（status/continue）、独立对抗评审补抓 1 处（wizard SKILL，即 M-A） | 同左 | required for high-risk delegation | pass |
+| Recoverable blocker next action | 不适用（无 blocker，positive 轮进入下一子目标） | 不适用 | read-only investigation before user pause | pass |
+
+## Local Repair Decision
+
+- Required repair: 无（评审 negative 期间的 M-A/M-B/M-C 三处必修项已在本轮内以 minimal-fix 全部修复，并经主会话走查复核确认到位，非跨轮遗留修复项）
+- Smallest safe next action: 建 round 0004 scope-lock，等待用户重启会话运行 `$harnessloop-setup` 完成本项目首次 wizard 五步（S4 live acceptance）
+- Blocker type: none
+- Recovery eligible: 不适用
+- Human confirmation required: 是（round 0004 的核心动作——live acceptance 首跑、三档默认值确认、"7/7→8/8"阈值表述确认——均需用户；本次审计本身不需要用户）
+- Block execution until repaired: 否
+
+## Evolution Issue Decision
+
+- Create upstream evolution issue: no
+- Reason: 本轮新发现的框架问题 TH-0008（第三类 Rule B 误报，讨论语境中间目录相对片段）已在评审/修复期间由本轮任务自身创建并完整记录（含 Suggested Upstream Improvement 与 Resolution 段落），Status=open；本次审计仅确认其存在与状态，无需重复创建
+- Issue path: .harnessloop/meta/evolution-issues/0008-verify-rule-b-fragment-citations.md（既有，open）
+- Redaction notes: 无涉密内容

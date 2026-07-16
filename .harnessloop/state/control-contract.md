@@ -4,33 +4,33 @@
 
 Allowed when:
 
-- Feedback class:
-- Evidence health:
-- Environment self-check:
-- Open handoffs:
-- Human confirmation:
+- Feedback class: feedback=positive
+- Evidence health: 无 stale
+- Environment self-check: pass（见 state/environment.md）
+- Open handoffs: 无 open handoff 阻塞
+- Human confirmation: 不需要——满足以上条件时自动进入下一子目标；read-only 调查轮（runtime-recoverable）自动开启
 
 ## Human Confirmation Required
 
 Required for:
 
-- Scope-lock mutation:
-- Evidence contract revision:
-- Control contract revision:
-- Failed review acceptance:
-- Rollback:
-- Irreversible or external-system write:
+- Scope-lock mutation: main session 自主（版本递增留痕）；但目标解释级变更需用户
+- Evidence contract revision: 需用户
+- Control contract revision: 需用户
+- Failed review acceptance: 仅用户
+- Rollback: main session 可执行已分类错误的回滚；跨仓库回滚需用户
+- Irreversible or external-system write: 需用户（例外：git push 到 surebeli/harnessloop 与 surebeli/test-harnessloop 在批次验收通过后为既定授权流程，无需逐次确认）
 
 ## Stop Conditions
 
 Stop when:
 
-- Blocking condition:
-- Blocker type:
-- Missing evidence:
-- Environment mismatch:
-- Model/effort mismatch:
-- Contract cannot be evaluated:
+- Blocking condition: human-decision-required / access-missing / write-safety-required 且下一安全动作需用户输入时
+- Blocker type: 见下方 Blocker Classification（协议 7 类）
+- Missing evidence: TODO (owner: user)
+- Environment mismatch: TODO (owner: user)
+- Model/effort mismatch: TODO (owner: user)
+- Contract cannot be evaluated: TODO (owner: user)
 
 ## Blocker Classification
 
@@ -44,20 +44,22 @@ Stop when:
 | external-system-unsafe | Allow bounded observation only | maybe |
 | unknown | Ask for facts needed to classify | yes |
 
+协议 7 类照录；其中 runtime-recoverable 与 contract-insufficient 可自恢复（后者限契约修复动作，不得借此扩大到业务执行）。
+
 ## Delegation Boundaries
 
-Allowed delegated work:
+Allowed delegated work: 只读发现/对抗审查（Workflow 多 agent 并行）；一切写入类任务（代码/文档）委派 claude-sonnet-5 子代理
 
-Disallowed delegated work:
+Disallowed delegated work: 目标解释、breakdown 审批、scope-lock 变更、轮次验收、评审失败后的接受
 
-Required handoff evidence:
+Required handoff evidence: 结构化摘要 + 文件路径引用（原始 diff/日志走文件与 handoff，不进主会话上下文）
 
 ## Acceptance Authority
 
-Round acceptance:
+Round acceptance: main session（claude-fable-5）
 
-Failed review escalation:
+Failed review escalation: 仅用户
 
-Blocked state unblock requirement:
+Blocked state unblock requirement: human-decision-required / access-missing / write-safety-required 且下一安全动作需用户输入时停止，等待用户输入解除
 
-Recoverable blocker auto-round policy:
+Recoverable blocker auto-round policy: runtime-recoverable 与 contract-insufficient 可自恢复（后者限契约修复动作）；read-only 调查轮自动开启

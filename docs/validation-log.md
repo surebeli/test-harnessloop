@@ -17,6 +17,15 @@
 
 ---
 
+## 2026-07-16 P1 setup wizard：harnessloop 首个 dogfooding goal 三轮完成
+
+- **场景**：用 harnessloop 自身协议开发 setup wizard（goal 20260716-001-setup-wizard，rounds 0001-0003：round 0001 design 首次对抗评审 negative → round 0002 design-v2 复审 positive → round 0003 implement 先对抗评审 negative 后 minimal-fix 复核通过）
+- **现象**：对抗评审两轮 negative 各拦下真实缺陷——设计轮（round 0001）M1（continue/loop 门语义与"每步可跳过"承诺自相矛盾，实测锁死本项目自身 continue）、M2（cost-context-policy 29 槽位判定算法无小节作用域定义、不可无歧义求值）、M3（lite 档 Evidence contract revision 条款与 harnessloop-evidence SKILL 强制人工确认硬约束冲突）三处必修项，另有 S1-S10 十项建议修复；实现轮（round 0003）M-A（wizard SKILL 引用不存在的 `todo_count` 字段、保留已废弃合并语义）、M-B（表格数据行判定过松、S1 哨兵锚定被任意杂文本旁路，实测证伪）、M-C（新技能家族配套缺口——`agents/openai.yaml` 与三处文档技能清单，scope-lock 规划遗漏）三处必修项，均按 minimal-fix 修复。机械门（verify_protocol.py Rule B）三类实战误报全部处置：TH-0006（正则/glob/裸域名等 6 条误报，已修复）、TH-0007（解析基准缺 `.harnessloop` 根导致 6 条误报，已修复，且是 round 0002 严格审查提前预测方案的逐字应验）、TH-0008（第三类——讨论语境中间目录相对片段误报，仍 open，已提出"项目树后缀匹配回退"增强提案，当前以 `verify:ignore` 手工止血 3 条）。文件契约两次纠正主会话转述漂移：一次是 round 0001 对协议硬约束的核对过程中，manifest "90 槽位"总数以设计文档原文为准较正，未被会话转述带偏；另一次是 round 0002 decision.md 裁决 (a) 纠正的"等核心文件"被主会话简化转述为"任一文件"（round 0001 decision.md:18 原文核实后以文件原文为准）。scope-lock 在 round 0003 内从 v1 扩围至 v2，走的是 control-contract.md 既定的"Scope-lock mutation: main session 自主（版本递增留痕）"授权路径，而非临时越权。另沉淀一条委派模式经验：批准的规格偏离（todo 双字段方案）必须同步广播给全部并行代理——本轮因未同步广播致 3 处接缝失配，主会话集成审查抓 2 处、对抗评审补抓 1 处
+- **预期**：协议各机制（评审门/机械门/scope-lock/self-audit/决策留痕）应在真实 goal 中全部被触发且有效，而非仅存在于文档描述（依据 harnessloop/AGENTS.md 与 harnessloop-loop SKILL 协议条款）
+- **插件改动**：harnessloop submodule 待提交 0.11.0（新增 `harnessloop-setup` skill + `check_setup.py` + `control-contract-profiles.md`；四个既有 SKILL.md 接线；`validate.py` 新增第 3 阶段共 8 阶段 28 断言；`harnessloop-setup/agents/openai.yaml`；README.md/docs/usage.md/docs/harnessloop-framework.md 三处技能清单更新）
+- **复验结果**：✅ `npm run validate` 8/8（含新增断言，合计 28 断言全绿）；`claude plugin validate --strict` 通过；`verify_protocol.py` exit 0（TH-0008 三条 `verify:ignore` 豁免不影响判定）；所有新增 Python 代码在本机 Python 3.9.4（pyenv）实测无异常
+- **遗留**：S4 live acceptance 待用户重启会话运行 `$harnessloop-setup` 首跑（round 0004，见 `.harnessloop/goals/20260716-001-setup-wizard/rounds/0004/scope-lock.md`）；TH-0008 增强提案待上游评估假阴性风险后决定是否实现；三档预设（lite/standard/strict）默认值最终措辞与 thresholds.md/setup/data-sources.md 中"7/7→8/8"阈值表述两项 Required Human Decisions 待用户确认
+
 ## 2026-07-16 P0 修复批次：审查驱动的四组框架缺陷闭环（Sonnet 执行 / Fable 审查模式首次运行）
 
 - **场景**：docs/harnessloop-review-20260716.md 严格审查（80 条确认发现）后的 P0 修复批次；首次采用「写入任务委派 Sonnet 5 子代理、主会话 Fable 5 只读审查验收」工作模式，三个子代理并行修复

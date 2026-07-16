@@ -8,8 +8,8 @@
 #
 # 前提：claude CLI（支持 `claude plugin` 子命令）、python3。
 #
-# 用法: scripts/plugin-reinstall.sh [harnessloop|hopper|all]
-#       无参数默认 all（依次重装两个插件）。
+# 用法: scripts/plugin-reinstall.sh [harnessloop|hopper|kata|all]
+#       无参数默认 all（依次重装三个插件）。
 set -Eeuo pipefail
 # -E (errtrace)：核心逻辑在 reinstall_one() 函数里，默认 ERR trap 不会传入函数体，
 # 必须显式 errtrace 否则函数内失败时 on_error 恢复提示不会触发（已用 bash 3.2 实测验证）。
@@ -22,36 +22,40 @@ plugin_submodule() {
   case "$1" in
     harnessloop) echo "harnessloop" ;;
     hopper) echo "hopper-plugin" ;;
+    kata) echo "kata" ;;
   esac
 }
 plugin_marketplace() {
   case "$1" in
     harnessloop) echo "harnessloop" ;;
     hopper) echo "agent-hopper" ;;
+    kata) echo "kata" ;;
   esac
 }
 plugin_id() {
   case "$1" in
     harnessloop) echo "harnessloop@harnessloop" ;;
     hopper) echo "hopper@agent-hopper" ;;
+    kata) echo "kata@kata" ;;
   esac
 }
 plugin_github_fallback() {
   case "$1" in
     harnessloop) echo "surebeli/harnessloop" ;;
     hopper) echo "surebeli/hopper-plugin" ;;
+    kata) echo "surebeli/kata" ;;
   esac
 }
-PLUGIN_ORDER="harnessloop hopper"
+PLUGIN_ORDER="harnessloop hopper kata"
 
 command -v claude >/dev/null || { echo "error: 未找到 claude CLI" >&2; exit 1; }
 
 TARGET="${1:-all}"
 case "$TARGET" in
-  harnessloop|hopper) PLUGINS_TO_RUN="$TARGET" ;;
+  harnessloop|hopper|kata) PLUGINS_TO_RUN="$TARGET" ;;
   all) PLUGINS_TO_RUN="$PLUGIN_ORDER" ;;
   *)
-    echo "error: 未知参数 '$TARGET'，用法: scripts/plugin-reinstall.sh [harnessloop|hopper|all]" >&2
+    echo "error: 未知参数 '$TARGET'，用法: scripts/plugin-reinstall.sh [harnessloop|hopper|kata|all]" >&2
     exit 1
     ;;
 esac

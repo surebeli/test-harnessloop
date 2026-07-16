@@ -8,6 +8,7 @@
 test-harnessloop/
 ├── harnessloop/            # submodule → surebeli/harnessloop（插件源码，直接迭代）
 ├── hopper-plugin/          # submodule → surebeli/hopper-plugin（第二个被测插件，直接迭代）
+├── kata/                   # submodule → surebeli/kata（第三个被测插件，维护 LLM wiki 文档，直接迭代）
 ├── app/                    # 验证用 app（用 harnessloop 框架开发）
 ├── docs/
 │   ├── app-requirements.md # app 需求

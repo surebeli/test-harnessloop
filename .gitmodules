@@ -4,3 +4,6 @@
 [submodule "hopper-plugin"]
 	path = hopper-plugin
 	url = https://github.com/surebeli/hopper-plugin.git
+[submodule "kata"]
+	path = kata
+	url = https://github.com/surebeli/kata.git

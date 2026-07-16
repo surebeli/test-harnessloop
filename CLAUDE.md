@@ -6,21 +6,22 @@
 
 - `harnessloop/` — git submodule，指向 `surebeli/harnessloop`。这是插件源码，发现框架问题时**直接在这里改**。
 - `hopper-plugin/` — git submodule，指向 `surebeli/hopper-plugin`（marketplace 名 `agent-hopper`，插件 id `hopper@agent-hopper`）。第二个被测插件，任务分发到第三方 agents，同样直接迭代。
+- `kata/` — git submodule，指向 `surebeli/kata`（marketplace 名 `kata`，插件 id `kata@kata`）。第三个被测插件，维护 LLM wiki 文档，同样直接迭代。
 - `app/` — 被开发的验证 app（需求见 `docs/app-requirements.md`）。
 - `docs/validation-log.md` — 每一轮「发现问题 → 改插件 → 重装 → 复验」的记录，是本项目的核心产出。
-- `scripts/` — 插件迭代回路脚本（覆盖 harnessloop 与 hopper 两个被测插件）。
+- `scripts/` — 插件迭代回路脚本（覆盖 harnessloop、hopper、kata 三个被测插件）。
 
 ## 插件迭代回路
 
-`scripts/plugin-reinstall.sh [harnessloop|hopper|all]` 每次运行都会把对应插件的全局 marketplace 重指到本项目的 submodule（不是 GitHub），所以插件改动不需要 push 就能生效（不带参数默认 `all`，两个插件依次重装；当前指向用 `scripts/plugin-status.sh [harnessloop|hopper|all]` 确认）：
+`scripts/plugin-reinstall.sh [harnessloop|hopper|kata|all]` 每次运行都会把对应插件的全局 marketplace 重指到本项目的 submodule（不是 GitHub），所以插件改动不需要 push 就能生效（不带参数默认 `all`，三个插件依次重装；当前指向用 `scripts/plugin-status.sh [harnessloop|hopper|kata|all]` 确认）：
 
-1. 直接编辑源码：harnessloop 在 `harnessloop/plugins/harnessloop/`（skills 等）；hopper 在 `hopper-plugin/`（marketplace.json 里 `source` 是 `./`，即 submodule 根目录本身就是插件源码目录，不是子目录）。**不需要先 commit**——已实测：安装复制的是 submodule 工作区（含未提交改动）。
-2. 运行 `scripts/plugin-reinstall.sh harnessloop`、`scripts/plugin-reinstall.sh hopper` 或不带参数一次重装两者（校验 manifest → 卸载 → 重装）。
+1. 直接编辑源码：harnessloop 在 `harnessloop/plugins/harnessloop/`（skills 等）；hopper 在 `hopper-plugin/`（marketplace.json 里 `source` 是 `./`，即 submodule 根目录本身就是插件源码目录，不是子目录）；kata 在 `kata/plugin/`（marketplace.json 里 `source` 是 `./plugin`）。**不需要先 commit**——已实测：安装复制的是 submodule 工作区（含未提交改动）。
+2. 运行 `scripts/plugin-reinstall.sh harnessloop`、`scripts/plugin-reinstall.sh hopper`、`scripts/plugin-reinstall.sh kata` 或不带参数一次重装三者（校验 manifest → 卸载 → 重装）。
 3. **重启 Claude Code 会话**后新版本才会加载。
 4. 复验之前失败的场景，结果记入 `docs/validation-log.md`。
-5. 验证通过的插件改动在对应 submodule（`harnessloop/` 或 `hopper-plugin/`）内 commit；push 到各自 GitHub 仓库已是既定授权流程（`surebeli/harnessloop`、`surebeli/test-harnessloop`、`surebeli/hopper-plugin` 三仓同权，批次验收通过后无需逐次确认，见 `.harnessloop/state/control-contract.md`）——但 hopper-plugin push 前必须先 bump 插件版本信息，保持 `.claude-plugin/marketplace.json`、`package.json` 及 CLI 版本串等多处版本文件一致，未 bump 不得 push（对照 harnessloop 的先例：版本 bump 是发布提交的一部分）。
+5. 验证通过的插件改动在对应 submodule（`harnessloop/`、`hopper-plugin/` 或 `kata/`）内 commit；push 到各自 GitHub 仓库已是既定授权流程（`surebeli/harnessloop`、`surebeli/test-harnessloop`、`surebeli/hopper-plugin`、`surebeli/kata` 四仓同权，批次验收通过后无需逐次确认，见 `.harnessloop/state/control-contract.md`）——但三个插件（harnessloop / hopper-plugin / kata）push 前均须先 bump 版本信息，保持各自版本文件一致后才能 push；具体版本文件位置以各仓库实际布局为准（hopper-plugin: `.claude-plugin/marketplace.json`、`package.json` 及 CLI 版本串等；kata: `plugin/.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json`、`CHANGELOG.md` 等；harnessloop 的版本 bump 已是既有发布惯例）。
 
-用 `scripts/plugin-status.sh [harnessloop|hopper|all]` 可对照 submodule 状态与全局实际安装的版本。
+用 `scripts/plugin-status.sh [harnessloop|hopper|kata|all]` 可对照 submodule 状态与全局实际安装的版本。
 
 ## Hopper vendor 角色
 
@@ -35,7 +36,7 @@
 
 > Dispatch contract (per-vendor --model/--reasoning/--sandbox/--timeout, perms, cwd): see `.hopper/DISPATCH.md` (hopper-generated, do not hand-edit). Never hand-copy vendor invocation strings.
 
-- hopper-plugin push 前必须 bump 插件版本信息、保持多处版本文件一致，否则不得 push：见「插件迭代回路」第 5 步与 `.harnessloop/state/control-contract.md`（Irreversible or external-system write 例外条款，user-confirmed 2026-07-17）。
+- 三个插件（harnessloop / hopper-plugin / kata）push 前均须 bump 版本信息、保持多处版本文件一致，否则不得 push：见「插件迭代回路」第 5 步与 `.harnessloop/state/control-contract.md`（Irreversible or external-system write 例外条款，user-confirmed 2026-07-17）。版本位置以各仓库实际布局为准：hopper-plugin 见上；kata 是 `plugin/.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json`、`CHANGELOG.md`。
 
 ## 约束
 

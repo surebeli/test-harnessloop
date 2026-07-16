@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# 对照显示：submodule 当前状态 vs 全局实际安装的插件（harnessloop / hopper），
+# 对照显示：submodule 当前状态 vs 全局实际安装的插件（harnessloop / hopper / kata），
 # 并做内容级比对（diff），确认「编辑 → 重装」是否真正生效。
 #
-# 用法: scripts/plugin-status.sh [harnessloop|hopper|all]
-#       无参数默认 all（依次展示两个插件）。
+# 用法: scripts/plugin-status.sh [harnessloop|hopper|kata|all]
+#       无参数默认 all（依次展示三个插件）。
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -15,28 +15,31 @@ plugin_submodule() {
   case "$1" in
     harnessloop) echo "harnessloop" ;;
     hopper) echo "hopper-plugin" ;;
+    kata) echo "kata" ;;
   esac
 }
 plugin_marketplace() {
   case "$1" in
     harnessloop) echo "harnessloop" ;;
     hopper) echo "agent-hopper" ;;
+    kata) echo "kata" ;;
   esac
 }
 plugin_id() {
   case "$1" in
     harnessloop) echo "harnessloop@harnessloop" ;;
     hopper) echo "hopper@agent-hopper" ;;
+    kata) echo "kata@kata" ;;
   esac
 }
-PLUGIN_ORDER="harnessloop hopper"
+PLUGIN_ORDER="harnessloop hopper kata"
 
 TARGET="${1:-all}"
 case "$TARGET" in
-  harnessloop|hopper) PLUGINS_TO_SHOW="$TARGET" ;;
+  harnessloop|hopper|kata) PLUGINS_TO_SHOW="$TARGET" ;;
   all) PLUGINS_TO_SHOW="$PLUGIN_ORDER" ;;
   *)
-    echo "error: 未知参数 '$TARGET'，用法: scripts/plugin-status.sh [harnessloop|hopper|all]" >&2
+    echo "error: 未知参数 '$TARGET'，用法: scripts/plugin-status.sh [harnessloop|hopper|kata|all]" >&2
     exit 1
     ;;
 esac

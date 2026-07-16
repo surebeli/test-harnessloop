@@ -18,6 +18,8 @@ test-harnessloop/
 
 ## 首次克隆
 
+前提：已安装 Claude Code CLI（`claude`，需支持 `claude plugin` 子命令）与 `python3`。
+
 ```bash
 git clone --recurse-submodules https://github.com/surebeli/test-harnessloop
 cd test-harnessloop
@@ -28,7 +30,7 @@ scripts/plugin-reinstall.sh   # 把全局 marketplace 指向本地 submodule 并
 
 ```
 用 harnessloop 框架开发 app
-        │ 发现框架问题（harnessloop:issue 记录）
+        │ 发现框架问题（harnessloop:harnessloop-issue 记录）
         ▼
 直接编辑 harnessloop/plugins/harnessloop/ 源码
         ▼

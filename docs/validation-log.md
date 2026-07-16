@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-17 hopper-plugin 0.31.0 发布：首次授权 push，政策层从纪律升级为机制
+
+- **场景**：hopper 边用边验证进入迭代阶段——用户采纳"effort 预制 + model 选择规则"三层政策方案并授权 push（附版本同步硬条件）；同一发布收拢三个批次：脚手架抽象档位化、--check-model 三档断言器、政策层机械化四项（dispatcher 政策消费/clamp 可见化/verified-latest 哨兵/setup 政策 lint）
+- **现象**：①全 vendor probe 实测 8/8 连通，codex bundled 目录含本机旧 CLI 不可用的 5.6 代——"目录收录≠本机可用"成为 --check-model 三档语义的设计依据 ②codex CLI 升级到 0.144.5 后 gpt-5.6-sol/terra/luna 三模型 live 微测全部可用，knownGood 更新（版本门槛注记）③项目 AGENTS.md 政策列迁移为机器语法后 lint 零 unparseable 零警告，迁移中发现两个真实解析陷阱（转义竖线列错位、反引号破坏 OOB 判定）④批次 2 顺带修复 --write frontmatter 记录未解析字面量的真 bug ⑤API 中断两次（会话额度/服务端错误），SendMessage 续跑机制两次成功恢复
+- **预期**：政策三层结构（frame 抽象档位 → AGENTS.md 项目政策 → 派发实例落盘）自洽运转
+- **插件改动**：hopper-plugin 6fbcf3a（v0.31.0，首次授权 push eceee81..6fbcf3a）；定向单测批次合计 250+ 全绿，全量回归 845/852（7 失败为环境缺 express 的既有 dashboard 测试）
+- **复验结果**：✅ 重装 v0.31.0 内容级一致；--setup 政策段在真实项目三态判定正确；--check-model 六案例全对；回落链/clamp/哨兵实跑验证
+- **遗留**：评审行 Effort policy 静态 lint 显示 unbound（设计使然——vendor 派发时随机绑定，届时 per-vendor 表生效）；dashboard 测试的 express 环境缺口（上游既有）；README 版本徽章 0.12.0 历史遗留漂移（未在本批范围）
+
+---
+
 ## 2026-07-17 hopper 首次实战：T-001 第三方对抗评审全链路走通，抓到 harnessloop 两个真缺陷
 
 - **场景**：hopper 引入后首个真实派发——`.hopper/queue.md` T-001，codex 对 harnessloop submodule commit 6936fbc（setup wizard 完整实现）做只读对抗评审，兼验证 `hopper-plugin/ISSUE-codex-review-hijack.md` 记录的观察点

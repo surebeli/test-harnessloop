@@ -19,7 +19,7 @@ Required for:
 - Control contract revision: 需用户
 - Failed review acceptance: 仅用户
 - Rollback: main session 可执行已分类错误的回滚；跨仓库回滚需用户
-- Irreversible or external-system write: 需用户（例外：git push 到 surebeli/harnessloop 与 surebeli/test-harnessloop 在批次验收通过后为既定授权流程，无需逐次确认）
+- Irreversible or external-system write: 需用户（例外：git push 到 surebeli/harnessloop、surebeli/test-harnessloop 与 surebeli/hopper-plugin 在批次验收通过后为既定授权流程，无需逐次确认；hopper-plugin 每次 push 前必须同步 bump 插件版本信息（版本文件以仓库实际布局为准：.claude-plugin/marketplace.json、package.json 及 CLI 版本串等全部一致），未 bump 版本不得 push（用户条件 2026-07-17）） (user-confirmed 2026-07-17)
 
 ## Stop Conditions
 

@@ -18,7 +18,7 @@
 2. 运行 `scripts/plugin-reinstall.sh harnessloop`、`scripts/plugin-reinstall.sh hopper` 或不带参数一次重装两者（校验 manifest → 卸载 → 重装）。
 3. **重启 Claude Code 会话**后新版本才会加载。
 4. 复验之前失败的场景，结果记入 `docs/validation-log.md`。
-5. 验证通过的插件改动在对应 submodule（`harnessloop/` 或 `hopper-plugin/`）内 commit；push 到各自 GitHub 仓库属于插件自己的发布流程，由用户决定。
+5. 验证通过的插件改动在对应 submodule（`harnessloop/` 或 `hopper-plugin/`）内 commit；push 到各自 GitHub 仓库已是既定授权流程（`surebeli/harnessloop`、`surebeli/test-harnessloop`、`surebeli/hopper-plugin` 三仓同权，批次验收通过后无需逐次确认，见 `.harnessloop/state/control-contract.md`）——但 hopper-plugin push 前必须先 bump 插件版本信息，保持 `.claude-plugin/marketplace.json`、`package.json` 及 CLI 版本串等多处版本文件一致，未 bump 不得 push（对照 harnessloop 的先例：版本 bump 是发布提交的一部分）。
 
 用 `scripts/plugin-status.sh [harnessloop|hopper|all]` 可对照 submodule 状态与全局实际安装的版本。
 
@@ -34,6 +34,8 @@
 - **codex 评审三项强制核对**：codex 沙箱不可靠地降级为只读、且存在跨仓 review 被全局 skill 劫持的已知问题（`hopper-plugin/ISSUE-codex-review-hijack.md`，未修）。每次 codex 评审完成后必须核对：(a) 实际审查对象是否为 brief 指定目标；(b) 产物是否落在 brief 指定路径；(c) 不得仅凭 exit 0 / codex 自述 success 采信。
 
 > Dispatch contract (per-vendor --model/--reasoning/--sandbox/--timeout, perms, cwd): see `.hopper/DISPATCH.md` (hopper-generated, do not hand-edit). Never hand-copy vendor invocation strings.
+
+- hopper-plugin push 前必须 bump 插件版本信息、保持多处版本文件一致，否则不得 push：见「插件迭代回路」第 5 步与 `.harnessloop/state/control-contract.md`（Irreversible or external-system write 例外条款，user-confirmed 2026-07-17）。
 
 ## 约束
 

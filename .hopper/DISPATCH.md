@@ -38,3 +38,4 @@
 
 A host CLI never dispatches to its own vendor identity (enforced). Run hopper from
 one host (e.g. codex / opencode) to dispatch a task to a different vendor (e.g. claude).
+

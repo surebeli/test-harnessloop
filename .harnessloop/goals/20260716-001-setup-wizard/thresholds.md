@@ -12,7 +12,7 @@
 
 | Threshold | Applies to | Command/check | Pass condition | Fail condition | Evidence path |
 | --- | --- | --- | --- | --- | --- |
-| npm run validate 7/7 + 新增断言全绿 | 整体插件 | npm run validate（cwd=harnessloop/） | exit 0，7/7 阶段全绿 | 任一阶段失败 | npm run validate 输出 |
+| npm run validate 全部阶段全绿（当前 8 阶段）+ 新增断言全绿 | 整体插件 | npm run validate（cwd=harnessloop/） | exit 0，全部阶段全绿（当前 8 阶段） | 任一阶段失败 | npm run validate 输出 (user-confirmed 2026-07-16, threshold revision per control contract) |
 | check_setup 在两种项目状态返回正确结果 | check_setup.py | 骨架项目 vs 本项目（已填）分别运行 | 骨架=incomplete，本项目=complete | 返回结果不符 | check_setup 输出 |
 | claude plugin validate --strict 通过 | harnessloop-setup skill | claude plugin validate --strict | exit 0 | 非 0 | 命令输出 |
 | 所有新 python 代码 3.9.4 实测可运行 | 新增 python 脚本 | python3 3.9.4（pyenv）实测运行 | 无异常，exit 0 | TypeError/异常退出 | 命令输出 |

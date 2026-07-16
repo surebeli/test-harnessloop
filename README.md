@@ -7,6 +7,7 @@
 ```
 test-harnessloop/
 ├── harnessloop/            # submodule → surebeli/harnessloop（插件源码，直接迭代）
+├── hopper-plugin/          # submodule → surebeli/hopper-plugin（第二个被测插件，直接迭代）
 ├── app/                    # 验证用 app（用 harnessloop 框架开发）
 ├── docs/
 │   ├── app-requirements.md # app 需求
@@ -23,7 +24,7 @@ test-harnessloop/
 ```bash
 git clone --recurse-submodules https://github.com/surebeli/test-harnessloop
 cd test-harnessloop
-scripts/plugin-reinstall.sh   # 把全局 marketplace 指向本地 submodule 并安装
+scripts/plugin-reinstall.sh   # 不带参数 = all，把两个插件的全局 marketplace 都指向本地 submodule 并安装
 ```
 
 ## 迭代回路

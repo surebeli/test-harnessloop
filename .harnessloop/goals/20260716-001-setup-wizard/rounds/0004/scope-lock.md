@@ -1,5 +1,11 @@
 # Scope Lock
 
+Version: v2
+
+Change Log:
+
+- 2026-07-16 — v1 → v2：主会话按 control-contract.md「Scope-lock mutation: main session 自主（版本递增留痕）」条款自主扩围。原因：用户已在本轮 wizard live 首跑中确认"npm run validate 7/7→8/8"验证阈值表述修订（thresholds.md 仅验证阈值表述行），该修订属本轮执行范围，纳入 Allowed Changes 以完成落盘。授权来源：control-contract.md scope-lock mutation 条款 + 用户 2026-07-16 确认。
+
 ## Round Objective
 
 S4 live acceptance：用户在本项目亲自首跑 setup wizard 五步（环境自动检测→data-sources 引导→cost-context-policy 确认→control-contract 档位选择→self-check 汇总+完成度 N/5 报告），wizard 运行期间为 `.harnessloop/setup/data-sources.md` 补齐 none 哨兵与既有缺口条目，走完后由 `check_setup.py` 机械复核本项目返回 `complete=true`。本轮不做实现改动，仅验收 round 0003 交付的 wizard 能力在真实项目上的端到端可用性（见 rounds/0003/round-summary.md Next Proposed Scope、goal.md Required Human Decisions）。
@@ -14,6 +20,7 @@ S4 live acceptance：用户在本项目亲自首跑 setup wizard 五步（环境
 | .harnessloop/state/control-contract.md | 修改（wizard 运行时写入） | 仅 wizard control-contract 档位选择步骤按所选 lite/standard/strict 预设写入（预设内容取自 control-contract-profiles.md） |
 | .harnessloop/state/self-check.md | 修改（wizard 运行时写入） | 仅 wizard self-check 汇总步骤写入完成度 N/5 报告与跳过步骤的 TODO 认领标记 |
 | .harnessloop/goals/20260716-001-setup-wizard/rounds/0004/ | 写 | 本轮协议文件（handoffs/evidence/reviews；scope-lock 自身版本迭代） |
+| .harnessloop/goals/20260716-001-setup-wizard/thresholds.md | 修改 | v2 追加：仅验证阈值表述行（"npm run validate 7/7"→"npm run validate 全部阶段全绿（当前 8 阶段）"），user-confirmed 2026-07-16，不得触及本文件其他内容 |
 
 这五个文件是 wizard 五步流程按设计各自管辖并在 wizard 运行时合法写入的落点（design-v2 §2/§3/§5；rounds/0003 交付的 `harnessloop-setup/SKILL.md` 五步分别对应这五个文件）。
 

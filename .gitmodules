@@ -1,3 +1,6 @@
 [submodule "harnessloop"]
 	path = harnessloop
 	url = https://github.com/surebeli/harnessloop.git
+[submodule "hopper-plugin"]
+	path = hopper-plugin
+	url = https://github.com/surebeli/hopper-plugin.git

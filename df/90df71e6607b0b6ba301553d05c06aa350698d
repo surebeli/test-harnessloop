@@ -1,0 +1,34 @@
+.harnessloop/state/control-contract.md
+  s_c587ecf7bbc3e2::t_a6628e056967b2 22
+CLAUDE.md
+  s_c587ecf7bbc3e2::t_64cd3f64ebe664 38-39
+  s_c587ecf7bbc3e2::t_52eb531df6afd8 21
+.hopper/DISPATCH.md
+  s_c587ecf7bbc3e2::t_729bb9a5e837fc 41
+.hopper/AGENTS.md
+  s_c587ecf7bbc3e2::t_eb42308b0a2346 6-9
+  s_c587ecf7bbc3e2::t_dd103e3793dcca 43-44,53-76
+  s_c587ecf7bbc3e2::t_7b9dd87f5000e9 45-50
+  s_c587ecf7bbc3e2::t_46aa4e2fa298f9 51-52
+  s_c587ecf7bbc3e2::t_45eb0365feb192 77-99
+docs/validation-log.md
+  s_c587ecf7bbc3e2::t_e27799980ce062 20-30
+hopper-plugin
+  s_c587ecf7bbc3e2::t_9e10f512972bc7 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "df90df71e6607b0b6ba301553d05c06aa350698d",
+  "prompts": {},
+  "sessions": {
+    "s_c587ecf7bbc3e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
+        "model": "claude-fable-5"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>"
+    }
+  }
+}

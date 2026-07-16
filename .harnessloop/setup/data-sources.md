@@ -33,7 +33,7 @@
 | Tool/platform | Purpose | Read/write scope | Account role | Verification method | Failure handling | Local parameter keys |
 | --- | --- | --- | --- | --- | --- | --- |
 | GitHub（surebeli/harnessloop 与 surebeli/test-harnessloop）(user-confirmed) | 插件上游发布与项目备份，批次验收后 push 为既定授权流程 (user-confirmed) | push main（读写）(user-confirmed) | surebeli（凭证走本机 git credential helper，绝不写入 harnessloop 文件）(user-confirmed) | git ls-remote 与 push 回执 (user-confirmed) | push 失败人工介入 (user-confirmed) | 无（无需 channel-params 键） |
-| hopper 第三方 agent 分发（本地 hopper CLI → codex/kimi/opencode/copilot/agy/grok/mimo/claude 等 vendor CLI） | 委派任务到第三方 agents（边用边验证对象） | 按任务而定 | vendor 凭证由各 CLI 自管，绝不入 harnessloop 文件 | hopper:setup 就绪表 + hopper:smoke | hopper:result/progress 排查后人工介入 | 无 (user-confirmed 2026-07-16) |
+| hopper 第三方 agent 分发（本地 hopper CLI → 入选 vendor 仅 **codex + grok**；其余注册 vendor CLI 如 kimi/opencode/copilot/agy/mimo/claude 未入选，暂不路由） | 委派任务到第三方 agents：**codex** = 对抗/验收评审随机池成员 + 研究备选；**grok** = 对抗/验收评审随机池成员 + 研究主力；**实现类（写代码）禁止派发第三方 vendor**，一律由主会话 claude-sonnet-5 子代理承担 | 按任务而定（评审=只读；研究=只读+web-search） | vendor 凭证由各 CLI 自管，绝不入 harnessloop 文件 | hopper:setup 就绪表 + hopper:smoke | hopper:result/progress 排查后人工介入 | 无 (user-confirmed 2026-07-17) |
 
 注：以上 GitHub 条目来源 = setup wizard live 首跑 2026-07-16（用户确认）。
 

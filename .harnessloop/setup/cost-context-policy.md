@@ -20,8 +20,8 @@ Use subagent or swarm for:
 
 - Read-only discovery: 只读发现可用 Workflow 多 agent 并行
 - Evidence collection: TODO (owner: user)
-- Low-context execution: 一切写入类任务（代码/文档）由 claude-sonnet-5 子代理执行（用户 2026-07-16 指定的强制分工）
-- Adversarial review: 独立子代理（sonnet 或 inherit）执行；只读对抗审查可用 Workflow 多 agent 并行
+- Low-context execution: 一切写入类任务（代码/文档）由 claude-sonnet-5 子代理执行（用户 2026-07-16 指定的强制分工）；**实现类任务禁止经 hopper 派给第三方 vendor**（codex/grok 等），third-party vendor 通道对 code-impl 不可用（用户决策 2026-07-17）
+- Adversarial review: 独立子代理（sonnet 或 inherit）执行；只读对抗审查可用 Workflow 多 agent 并行；**也可经 hopper 派给第三方 vendor**（入选池 grok\|codex 随机一家，随机发生在主会话写 queue 行 Vendor 列时）——Sonnet 子代理与第三方 vendor 双轨可选，具体走哪一轨由主会话决定；无论走哪一轨，**轮次验收仍由主会话承担**，不因委派评审而下放（用户决策 2026-07-17）
 - Acceptance testing: TODO (owner: user)
 
 Do not delegate:
@@ -32,6 +32,7 @@ Do not delegate:
 - Human-required product or business decisions: 不可委派
 - Acceptance after failed review: 不可委派，仅用户确认
 - 轮次验收: 不可委派（协议附加项，与上述并列）
+- 实现类第三方 vendor 派发: 不可委派——写代码任务绝不经 hopper 派给第三方 vendor（codex/grok 等），只能由主会话的 claude-sonnet-5 子代理执行（用户决策 2026-07-17）
 
 ## Execution Delegation Matrix
 
@@ -40,9 +41,9 @@ Do not delegate:
 | Read-only discovery | should delegate |  |  | Workflow 多 agent 并行可用 |  |
 | Evidence collection | delegate when bounded and read-only |  |  |  |  |
 | External connectivity check | main gate or `$harnessloop-connectivity` |  |  |  |  |
-| Low-risk local implementation | may delegate |  |  | 一切写入类任务由 claude-sonnet-5 子代理执行（强制分工） |  |
-| High-risk or cross-cutting implementation | main session owns; delegate narrow subtasks only |  |  |  |  |
-| Adversarial review | must delegate when verifiable |  |  | 独立子代理（sonnet 或 inherit），或 Workflow 多 agent 并行 |  |
+| Low-risk local implementation | may delegate |  |  | 一切写入类任务由 claude-sonnet-5 子代理执行（强制分工） | 禁止派发第三方 vendor（hopper codex/grok 等）；实现类只能给 claude-sonnet-5 子代理（用户决策 2026-07-17） |
+| High-risk or cross-cutting implementation | main session owns; delegate narrow subtasks only |  |  |  | 同上：禁止派发第三方 vendor（用户决策 2026-07-17） |
+| Adversarial review | must delegate when verifiable |  |  | 独立子代理（sonnet 或 inherit），或 Workflow 多 agent 并行；**或**经 hopper 派第三方 vendor（入选池 grok\|codex 随机一家，用户决策 2026-07-17），双轨可选 |  |
 | Acceptance testing | should delegate when independent |  |  |  |  |
 | Round acceptance and control decisions | never delegate |  |  |  | 轮次验收、评审失败后接受均需 main session/用户 |
 
@@ -58,8 +59,8 @@ Codex:
 Claude Code:
 
 - Independent investigation: discovery=Workflow agents（只读）
-- Low-context execution: write-implementation=claude-sonnet-5
-- Adversarial review: 独立子代理（sonnet 或 inherit）
+- Low-context execution: write-implementation=claude-sonnet-5；**实现类禁派第三方 vendor（hopper codex/grok 等不可用于 code-impl，用户决策 2026-07-17）**
+- Adversarial review: 独立子代理（sonnet 或 inherit）；**或经 hopper 派第三方 vendor（grok\|codex 随机，用户决策 2026-07-17）**——Sonnet 子代理与第三方 vendor 双轨可选，轮次验收仍 main session 承担，不因委派评审而下放
 - Core decisions: main=claude-fable-5（ultracode/xhigh）
 
 ## Handoff Budget Rules

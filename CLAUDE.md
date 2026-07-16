@@ -22,6 +22,19 @@
 
 用 `scripts/plugin-status.sh [harnessloop|hopper|all]` 可对照 submodule 状态与全局实际安装的版本。
 
+## Hopper vendor 角色
+
+（用户决策 2026-07-17，详见 `.hopper/AGENTS.md`、`.harnessloop/setup/data-sources.md`、`.harnessloop/setup/cost-context-policy.md`）
+
+- **入选 vendor 只有 `codex` 与 `grok`**，其余 hopper 已注册的 vendor（kimi/opencode/copilot/agy/mimo/claude 等）未入选，暂不路由。
+  - `codex`：对抗/验收评审随机池成员 + 研究备选。
+  - `grok`：对抗/验收评审随机池成员 + 研究主力。
+- **对抗评审（`code-review-adversarial`/`code-review-acceptance`）** 从 codex/grok 中随机挑一家；随机发生在主会话写 queue.md 该任务行 `Vendor` 列的那一刻，hopper 的路由逻辑本身仍是确定性的静态查表。
+- **实现类（写代码，`code-impl`）绝不派第三方 vendor**——一律由主会话的 claude-sonnet-5 子代理执行，hopper 不参与实现类任务的派发。
+- **codex 评审三项强制核对**：codex 沙箱不可靠地降级为只读、且存在跨仓 review 被全局 skill 劫持的已知问题（`hopper-plugin/ISSUE-codex-review-hijack.md`，未修）。每次 codex 评审完成后必须核对：(a) 实际审查对象是否为 brief 指定目标；(b) 产物是否落在 brief 指定路径；(c) 不得仅凭 exit 0 / codex 自述 success 采信。
+
+> Dispatch contract (per-vendor --model/--reasoning/--sandbox/--timeout, perms, cwd): see `.hopper/DISPATCH.md` (hopper-generated, do not hand-edit). Never hand-copy vendor invocation strings.
+
 ## 约束
 
 - app 的开发过程必须走 harnessloop 框架（skill 真实调用名带双前缀：`harnessloop:harnessloop-init` → `harnessloop:harnessloop-loop` / `harnessloop:harnessloop-continue` 等；`harnessloop:init` 这类短写只是触发短语，不是合法 skill 名），不要绕开框架直接开发——绕开就失去了验证意义。

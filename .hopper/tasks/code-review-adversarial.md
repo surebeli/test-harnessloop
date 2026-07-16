@@ -1,0 +1,32 @@
+# Task-type: code-review-adversarial
+
+Anchor: `.hopper/tasks/code-review-adversarial.md::root`
+
+## Purpose
+
+Independently review a change, hunting for defects the author would miss. Review only — no edits.
+
+## Input shape
+
+- The task spec section from `.hopper/handoffs/leader-tasklist.md` (matched by task ID)
+- Acceptance criteria (prefer machine-checkable: a runnable command or grep per criterion)
+- Positive scope (files allowed) and negative scope (files that must not change)
+- Budget: time and vendor-cost ceiling
+
+## Output shape (output.md)
+
+The output should contain, in this order:
+
+- **Summary**: what was delivered, in two to four sentences
+- **Files touched**: paths with a one-line rationale each (or "none")
+- **Acceptance verification (N/N)**: each criterion with evidence (command output, file:line, grep match)
+- **Decisions / deviations**: judgment calls or scope changes (or "none")
+- **Open questions**: list, or "none"
+- **Verdict**: PASS | PASS_WITH_NOTE | REWORK | FAIL
+- **Next recommendation**: what should happen next
+
+## Notes
+
+This frame describes the SHAPE of the work and the expected output, not an
+identity to adopt. The vendor CLI brings its own behavior; the frame only states
+what the protocol expects back.

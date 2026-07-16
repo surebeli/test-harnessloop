@@ -239,3 +239,64 @@ Status values: `pass`, `warn`, `fail`, `unknown`.
 - Reason: 本轮新发现的框架问题 TH-0008（第三类 Rule B 误报，讨论语境中间目录相对片段）已在评审/修复期间由本轮任务自身创建并完整记录（含 Suggested Upstream Improvement 与 Resolution 段落），Status=open；本次审计仅确认其存在与状态，无需重复创建
 - Issue path: .harnessloop/meta/evolution-issues/0008-verify-rule-b-fragment-citations.md（既有，open）
 - Redaction notes: 无涉密内容
+
+---
+
+# Self Audit
+
+## Audit Metadata
+
+- Audit ID: AUDIT-20260717-GOAL-ACHIEVED
+- Trigger: post-feedback（goal 归档）
+- Active goal: 20260716-001-setup-wizard（归档中）
+- Active round: 0004（S4 live acceptance，末轮）
+- Auditor: main session（claude-fable-5）
+- Timestamp: 2026-07-17
+
+## Loop Health
+
+| Check | Status | Evidence path | Notes |
+| --- | --- | --- | --- |
+| Dead loop risk | pass | rounds/0001/decision.md; rounds/0002/decision.md; rounds/0003/decision.md; rounds/0004/decision.md | goal 四轮完整生命周期——round 0001 design 首次 negative（M1-M3）→ round 0002 design-v2 复审 positive → round 0003 implement 首次 negative（M-A/M-B/M-C）→minimal-fix→positive → round 0004 S4 live acceptance positive。两次 negative 均一次性 minimal-fix 后转 positive，未出现同一问题重复出现、未出现无新证据的重复 negative/neutral 判定，非死循环 |
+| Self-contradiction | pass | rounds/0004/decision.md; goal.md ## Status | goal.md Status 节记录与 rounds/0004/round-summary.md、decision.md 结论一致；三项 Required Human Decisions 解决方式在三处表述一致，无矛盾 |
+| Goal drift | pass | goal.md | 8 条 acceptance criteria 全程未变更（round 0002 R5 仅为行号引用勘误，非目标变更）；Success Condition 三项全部达成；goal 归档判定与既定 Non-Goals 范围一致，未扩围 |
+| Evidence drift | pass | .harnessloop/state/evidence-index.md | stale evidence 0；round 0004 round-level 证据 E1-E7（见 rounds/0004/round-summary.md、decision.md）延续既有格局，未镜像进全局 evidence-index.md（历轮以来一致做法，非本轮新增缺口） |
+| Validation drift | pass | .harnessloop/meta/evolution-issues/0008-verify-rule-b-fragment-citations.md | TH-0008 仍 open（框架级问题，非本 goal 范围），不影响本 goal achieved 判定；收盘时机械门 verify_protocol exit 0 |
+| Handoff stagnation | pass |  | round 0004 无 handoff（live 轮由用户+主会话直接执行）；rounds/0001-0003 历轮 handoff 全部已闭合归档，无停滞 |
+| Cost/context runaway | pass |  | round 0004 结算窗口 30 assistant turn(s)，output 36,751 tokens，协议归因 7/30 turns（41% of output），已记账于 rounds/0004/round-summary.md Cost 节 |
+| Recoverable blocker stalled | pass |  | 无 blocker（goal 全生命周期内两次 negative 均走 minimal-fix 而非 blocker 路径） |
+
+Status values: `pass`, `warn`, `fail`, `unknown`.
+
+## Deterministic Signals
+
+| Signal | Current value | Previous value | Threshold | Status |
+| --- | --- | --- | --- | --- |
+| Recent feedback sequence | positive（round 0004，S4 live acceptance；goal 全程：negative→positive→negative-minimal-fix-positive→positive，两次 negative 均有新证据支撑且非重复出现） | positive（round 0003） | no repeated neutral/negative without new evidence | pass |
+| Repeated next action count | 1（goal 归档，无后续轮） | 1（开 round 0004，等待用户 live acceptance 首跑） | max 2 identical actions | pass |
+| Scope-lock version | round 0004 v2（终态，M-C 修复期间与阈值表述修订两次扩围均按 control-contract scope-lock mutation 条款自主进行，版本递增留痕） | round 0004 v1（scope-lock 建立时） | must change after failed action unless rollback | pass |
+| Goal contract version/hash | v1（内容含 ## Status 节归档记录，非实质性目标变更） | v1 | no silent change | pass |
+| Threshold version/hash | v1（内容含"7/7→8/8"阈值表述更新，user-confirmed 2026-07-16，属既定 Required Human Decision 的落盘，非静默变更） | v1 | no silent change | pass |
+| Data contract version/hash | v1（未变） | v1 | no silent change | pass |
+| Verification command set | npm run validate（8/8，28 断言）/ verify_protocol.py（exit 0）/ check_setup.py（本项目 complete=true 5/5）/ plugin-reinstall.sh | 同上一轮 | no silent change | pass |
+| Stale evidence count | 0 | 0 | 0 for acceptance | pass |
+| Open handoff age | 0（round 0004 无 handoff；历轮 handoff 全部已闭合归档） | 0 | project-defined | pass |
+| Main-session raw context risk | 低（本轮无子代理委派，用户直接口头确认 + 机械门命令输出，均以摘要形式记录） | 低 | raw logs stay in evidence files | pass |
+| Delegation model/effort verified | 本轮无委派（live 轮由用户亲自执行 + 主会话直接核验）；历轮委派模式经验（规格偏离广播遗漏）已在 round 0003 固化，无新增 | 同左 | required for high-risk delegation | pass |
+| Recoverable blocker next action | 不适用（无 blocker，goal achieved 归档） | 不适用 | read-only investigation before user pause | pass |
+
+## Local Repair Decision
+
+- Required repair: 无
+- Smallest safe next action: goal 归档；等待用户提出新 goal（候选：hopper 首次实战集成 / app 需求定义）
+- Blocker type: none
+- Recovery eligible: 不适用
+- Human confirmation required: 否（goal 归档本身不需要用户进一步确认；三项 Required Human Decisions 已在 round 0004 内解决完毕）
+- Block execution until repaired: 否
+
+## Evolution Issue Decision
+
+- Create upstream evolution issue: no
+- Reason: 本次审计为 goal 归档审计，未发现新框架缺陷；TH-0008 仍以既有 open 状态存在，无需重复创建或变更
+- Issue path: 无新增（引用既有 .harnessloop/meta/evolution-issues/0008-verify-rule-b-fragment-citations.md）
+- Redaction notes: 无涉密内容

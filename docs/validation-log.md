@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-17 setup wizard goal 完结：S4 live 验收通过，首个 dogfooding goal 达成
+
+- **场景**：用户亲自 live 首跑 setup wizard（goal 20260716-001-setup-wizard round 0004，S4 live acceptance）——`/reload-plugins` 热加载插件后直接运行 `$harnessloop-setup`，无需重启会话
+- **现象**：wizard 审阅模式正确识别既有五文件完成度 4/5，仅追问缺失类别（External Tools），用户选择记录 GitHub 条目；哨兵写入符合设计（`.harnessloop/setup/data-sources.md` External Tools 表新增 GitHub 行，user-confirmed）；完成度报告全部符合设计预期。另有一项新发现值得记录：`/reload-plugins` 热加载即刻生效，无需重启整个会话——这是比"重启会话"更快的插件生效路径，此前 round 0002 evidence-index.md E4 曾记录"已加载的 SKILL 文本钉在会话启动快照，落后于磁盘"的局限，本次实测 `/reload-plugins` 可绕开该局限，值得在后续 dogfooding 中优先尝试
+- **预期**：wizard 五步流程（含审阅模式的"仅问缺口"设计）应在真实项目上端到端可用，而非仅在骨架项目/dry-run 中验证（依据 goal.md Success Condition 与 rounds/0003 round-summary.md Next Proposed Scope）
+- **插件改动**：未改动（本条为纯验收记录，round 0003 已完成全部实现交付，round 0004 仅为 S4 live 验收 + 三项 Required Human Decisions 收口，未触及 harnessloop/ submodule 任何文件）
+- **复验结果**：✅ 通过。`check_setup.py` 复核本项目返回完成度 5/5、`complete: true`，exit 0；收盘门 `verify_protocol.py` exit 0
+- **遗留**：无。goal 20260716-001-setup-wizard 三项 Required Human Decisions（live 首跑、三档预设默认值"保持默认"、"7/7→8/8"阈值表述更新）全部解决，goal 判定 achieved 并归档（见 `.harnessloop/goals/20260716-001-setup-wizard/goal.md` ## Status、`.harnessloop/goals/20260716-001-setup-wizard/rounds/0004/decision.md`）。TH-0008（第三类 Rule B 误报，框架级问题）仍 open，与本 goal 归档无关，留待独立处理
+
+---
+
 ## 2026-07-16 P1 setup wizard：harnessloop 首个 dogfooding goal 三轮完成
 
 - **场景**：用 harnessloop 自身协议开发 setup wizard（goal 20260716-001-setup-wizard，rounds 0001-0003：round 0001 design 首次对抗评审 negative → round 0002 design-v2 复审 positive → round 0003 implement 先对抗评审 negative 后 minimal-fix 复核通过）

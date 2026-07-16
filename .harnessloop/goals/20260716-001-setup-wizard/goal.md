@@ -41,3 +41,17 @@
 | --- | --- | --- | --- |
 | 需求依据 | docs/harnessloop-review-20260716.findings.json 中 guided-setup/auto-detection lens 的 CONFIRMED 条目 | 权威（需求冻结基线，2026-07-16） | 2026-07-16 |
 | 格式权威 | harnessloop/plugins/harnessloop/skills/harnessloop-loop/references/ 模板目录 | 权威 | 2026-07-16（submodule HEAD 66093fd） |
+
+## Status
+
+**achieved（2026-07-17）**
+
+Goal 全生命周期四轮完成：round 0001 design 首次对抗评审 negative → round 0002 design-v2 复审 positive → round 0003 implement 首次对抗评审 negative→minimal-fix→positive → round 0004 S4 live acceptance positive。8 条 acceptance criteria 全部落位、Success Condition 三项全部达成（详见 rounds/0004/decision.md）。
+
+Required Human Decisions 三项解决方式逐条记录：
+
+1. **档位预设默认值内容（lite/standard/strict）**——用户 2026-07-17 明确"保持默认"：round 0003 交付的 `control-contract-profiles.md` 三档预设内容无需改动，直接确认为最终版本。
+2. **live acceptance 运行（用户亲自执行首次 wizard）**——用户 2026-07-16 亲自完成：`/reload-plugins` 热加载插件后（无需重启会话）运行 `$harnessloop-setup`，审阅模式正确识别既有完成度 4/5、仅追问缺失类别（External Tools），用户选择记录 GitHub 条目；`check_setup.py` 复核本项目达成 complete=true（5/5），exit 0。
+3. **thresholds.md 与 setup/data-sources.md 中"npm run validate 7/7"随 validate 增至 8 阶段的表述更新**——用户已确认更新，已按 round 0004 scope-lock v2 授权落盘至两处文件（均标注 user-confirmed 2026-07-16）。
+
+三项均已解决，无遗留 Required Human Decisions。goal 归档，见 `.harnessloop/state/current.md`。

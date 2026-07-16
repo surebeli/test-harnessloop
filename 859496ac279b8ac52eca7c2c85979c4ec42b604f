@@ -1,0 +1,35 @@
+.gitignore
+  0000019f6a4c03f4 1-1
+.gitmodules
+  0000019f6a4c03f4 1-3
+CLAUDE.md
+  0000019f6a4c03f4 1-29
+README.md
+  0000019f6a4c03f4 1-38
+docs/validation-log.md
+  0000019f6a4c03f4 1-20
+scripts/plugin-reinstall.sh
+  0000019f6a4c03f4 1-34
+scripts/plugin-status.sh
+  0000019f6a4c03f4 1-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "859496ac279b8ac52eca7c2c85979c4ec42b604f",
+  "prompts": {
+    "0000019f6a4c03f4": {
+      "agent_id": {
+        "tool": "claude",
+        "model": "claude-fable-5",
+        "id": "ai-thread-claude-claude-fable-5-1784194794484"
+      },
+      "human_author": "litianyi",
+      "messages": [],
+      "total_additions": 170,
+      "total_deletions": 0,
+      "accepted_lines": 170,
+      "overriden_lines": 0
+    }
+  }
+}

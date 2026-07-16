@@ -1,0 +1,3 @@
+[submodule "harnessloop"]
+	path = harnessloop
+	url = https://github.com/surebeli/harnessloop.git

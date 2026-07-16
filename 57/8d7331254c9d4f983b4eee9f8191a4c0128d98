@@ -1,0 +1,29 @@
+docs/app-requirements.md
+  s_c587ecf7bbc3e2::t_0e1dd938cb9c91 1-5
+scripts/plugin-reinstall.sh
+  s_c587ecf7bbc3e2::t_690d6b75741203 5-6,9-10,17-18,25-33,39-43,49-50
+README.md
+  s_c587ecf7bbc3e2::t_907041fc76390a 33
+  s_c587ecf7bbc3e2::t_7e9477a4ebbc3a 21-22
+scripts/plugin-status.sh
+  s_c587ecf7bbc3e2::t_f49ca5ba39c130 2-3,10,16-18,20-22,25,30,33-47,51-54,60-75
+CLAUDE.md
+  s_c587ecf7bbc3e2::t_fb2a0b2c2fea50 14
+  s_c587ecf7bbc3e2::t_73a5b00c8ac3c1 26-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "578d7331254c9d4f983b4eee9f8191a4c0128d98",
+  "prompts": {},
+  "sessions": {
+    "s_c587ecf7bbc3e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
+        "model": "claude-fable-5"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>"
+    }
+  }
+}

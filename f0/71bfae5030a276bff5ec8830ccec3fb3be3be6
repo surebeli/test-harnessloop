@@ -1,0 +1,38 @@
+scripts/plugin-reinstall.sh
+  s_c587ecf7bbc3e2::t_362a960347dc8a 55,58
+  s_c587ecf7bbc3e2::t_c466818e447f7a 11-12
+  s_c587ecf7bbc3e2::t_66d0132237638a 25,32,39,46,49
+CLAUDE.md
+  s_c587ecf7bbc3e2::t_579ddb633d58f0 39
+  s_c587ecf7bbc3e2::t_48fd8f2684fa2f 9,12,16,18-19,22,24
+.harnessloop/setup/data-sources.md
+  s_c587ecf7bbc3e2::t_bbbbf7a18aa1ec 10
+  s_c587ecf7bbc3e2::t_b21d6f77e38df2 38
+.harnessloop/state/control-contract.md
+  s_c587ecf7bbc3e2::t_5947af45cf0d78 22
+.gitmodules
+  s_c587ecf7bbc3e2::t_d16dd990a04099 7-9
+scripts/plugin-status.sh
+  s_c587ecf7bbc3e2::t_aaa7f5ff221a6d 2,5-6
+  s_c587ecf7bbc3e2::t_d5ff2d0d858231 18,25,32,35,39,42
+README.md
+  s_c587ecf7bbc3e2::t_10c4ad477d8d89 11
+kata
+  s_c587ecf7bbc3e2::t_67ef5004347e49 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f071bfae5030a276bff5ec8830ccec3fb3be3be6",
+  "prompts": {},
+  "sessions": {
+    "s_c587ecf7bbc3e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
+        "model": "claude-fable-5"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>"
+    }
+  }
+}

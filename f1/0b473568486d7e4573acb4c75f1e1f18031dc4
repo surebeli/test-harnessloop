@@ -1,0 +1,53 @@
+.harnessloop/setup/data-sources.md
+  s_c587ecf7bbc3e2::t_7f73d18d106401 9
+  s_c587ecf7bbc3e2::t_43b24ccf52c896 17
+  s_c587ecf7bbc3e2::t_f4e0954320916b 35,37-38
+  s_c587ecf7bbc3e2::t_9b244b20fa4c23 25
+  s_c587ecf7bbc3e2::t_fa90f2615d16a1 36
+.gitmodules
+  s_c587ecf7bbc3e2::t_bb34c2d90e14e1 4-6
+scripts/plugin-status.sh
+  s_c587ecf7bbc3e2::t_ec7a11504eeea7 167-170,172,178
+  s_c587ecf7bbc3e2::t_f02128932de333 2,5-6,12-120,127-129,131,144,153,156-158,163-166,171,173-175,179,181,183-188
+  s_c587ecf7bbc3e2::t_82f97c580f53bc 176-177
+CLAUDE.md
+  s_c587ecf7bbc3e2::t_d291f24f292d0f 30-31
+  s_c587ecf7bbc3e2::t_f87811f18ab4e6 8,11,15,17-18,21,23
+scripts/plugin-reinstall.sh
+  s_c587ecf7bbc3e2::t_18ce4643a7f99d 13-15
+  s_c587ecf7bbc3e2::t_4b0f3ed6c14f8d 95-96
+  s_c587ecf7bbc3e2::t_49c5c436cef36a 2,4,11-12,19-45,49-85,88,91-94,97-100,104-111,113-142,144-146,149-150
+  s_c587ecf7bbc3e2::t_bbf4c56e2acc55 18
+.harnessloop/goals/20260716-001-setup-wizard/rounds/0004/scope-lock.md
+  s_c587ecf7bbc3e2::t_3a0be76e9e695e 23
+  s_c587ecf7bbc3e2::t_df6efba36432bf 3-8
+.harnessloop/goals/20260716-001-setup-wizard/thresholds.md
+  s_c587ecf7bbc3e2::t_ca108c57c433e0 15
+README.md
+  s_c587ecf7bbc3e2::t_f301d282d91b49 10
+  s_c587ecf7bbc3e2::t_f72194b45bd0d6 27
+docs/hopper-capability-map.md
+  s_c587ecf7bbc3e2::t_bfbe84372bef8b 1-233
+.harnessloop/state/self-check.md
+  s_c587ecf7bbc3e2::t_14e51be75fd582 9
+  s_c587ecf7bbc3e2::t_c99ee48d6d617b 13-14
+  s_c587ecf7bbc3e2::t_be592da2811010 3
+hopper-plugin
+  s_c587ecf7bbc3e2::t_7493bc119de99b 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f10b473568486d7e4573acb4c75f1e1f18031dc4",
+  "prompts": {},
+  "sessions": {
+    "s_c587ecf7bbc3e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
+        "model": "claude-fable-5"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>"
+    }
+  }
+}

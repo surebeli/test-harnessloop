@@ -1,0 +1,4 @@
+{"seq":1,"ts":"2026-07-16T16:25:37.139Z","task_id":"T-001","vendor":"codex","phase":"starting","kind":"lifecycle","message":"Background task queued.","source":"runner","terminal":false}
+{"seq":2,"ts":"2026-07-16T16:25:44.106Z","task_id":"T-001","vendor":"codex","phase":"failed","kind":"terminal","message":"Task failed.","source":"runner","terminal":true,"status":"failed","duration_ms":6895,"exit_code":1,"signal":null,"adapter_status":"unknown-fail","timed_out":null}
+{"seq":3,"ts":"2026-07-16T16:26:36.970Z","task_id":"T-001","vendor":"codex","phase":"starting","kind":"lifecycle","message":"Background task queued.","source":"runner","terminal":false}
+{"seq":4,"ts":"2026-07-16T16:31:36.820Z","task_id":"T-001","vendor":"codex","phase":"done","kind":"terminal","message":"Task completed successfully.","source":"runner","terminal":true,"status":"done","duration_ms":299778,"exit_code":0,"signal":null,"adapter_status":"success","timed_out":null}

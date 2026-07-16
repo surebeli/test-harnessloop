@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-17 hopper 首次实战：T-001 第三方对抗评审全链路走通，抓到 harnessloop 两个真缺陷
+
+- **场景**：hopper 引入后首个真实派发——`.hopper/queue.md` T-001，codex 对 harnessloop submodule commit 6936fbc（setup wizard 完整实现）做只读对抗评审，兼验证 `hopper-plugin/ISSUE-codex-review-hijack.md` 记录的观察点
+- **现象**：①首派 400 失败——vendor 默认模型 `gpt-5.6-sol` 超出本机 codex CLI 版本；新观察点：vendor 默认模型不可信，须钉缓存模型名而非依赖 vendor 默认值 ②重派 `--model gpt-5.5`（xhigh）成功，5 分钟（299.8s），结果 REWORK + 3 findings，107,893 tokens ③派发方按 `.hopper/AGENTS.md`「Codex 评审强制核对」三项逐一核对，全部通过：审查对象确为 brief 指定的目标（真实 commit/路径）、产物落在 brief 指定路径、两条 findings 经独立复现成立 ④跨仓劫持（ISSUE-codex-review-hijack 记录的已知问题）本次未复发——EXECUTION MODE 前导有效 ⑤同时坐实该 ISSUE 的另一半已知问题：review 任务在 codex 落地时仍是 `danger-full-access`，实证「不可靠地降级为只读」——只读性目前只能靠 brief 约定，没有机械保证 ⑥`--watch` 两次（首派失败、重派成功）均在终态正确退出，无悬挂
+- **预期**：hopper 的 dispatch 生命周期（init-tasks → 预检三连 → dispatch → watch → result → 强制核对）应在真实任务上端到端可用，且暴露的观察点应可沉淀为后续验证清单（依据 `.hopper/AGENTS.md` Codex 评审强制核对条款、`hopper-plugin/ISSUE-codex-review-hijack.md`）
+- **插件改动**：hopper 无改动（本轮为纯使用验证，未触及 hopper-plugin/ 任何文件）；harnessloop 因本次 findings 另开修复任务 TH-0009（见对应 evolution issue）
+- **复验结果**：✅ 全链路走通——init-tasks → 预检三连 → dispatch → watch → result → 三项强制核对，均按预期完成
+- **遗留**：finding 3（validate fixture 自证性问题）记录为已知局限，暂不重构；codex 默认模型不可信问题可考虑上报 hopper 上游，建议增加缓存模型名的 fallback 机制，避免 vendor 端默认值漂移导致派发直接 400
+
+---
+
 ## 2026-07-17 setup wizard goal 完结：S4 live 验收通过，首个 dogfooding goal 达成
 
 - **场景**：用户亲自 live 首跑 setup wizard（goal 20260716-001-setup-wizard round 0004，S4 live acceptance）——`/reload-plugins` 热加载插件后直接运行 `$harnessloop-setup`，无需重启会话

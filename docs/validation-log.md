@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-17 kata wiki 启动与首次 ingest：全链路 live 验证零缺陷，复利效应实证
+
+- **场景**：用户主导、主会话引导完成 kata 完整启动链——wiki-init 向导（域=AI 插件工程验证知识库、6 分类、plugin enum 维度、sync 就绪、git 化）→ 项目绑定（.llm-wiki.yaml + gitignore，实测绑定解析未回落 common）→ 首次 wiki-ingest（源=docs/validation-log.md 8 条记录）
+- **现象**：①单源触达 15 页 + 38 对双向交叉引用——复利效应首次实证 ②kata 行为验证零缺陷：orientation guard 未跳过、自定义维度提示如期触发（用户答 cross）、raw 不可变捕获、schema guard 生效（写页代理对 3 处边界提案而非漂移）③验收三连全绿：schema_validate 0 错、三段检索命中排序合理（vendors/codex.md 居首）、图 hub 结构符合预期（plugins/harnessloop.md in/out 各 10）④首轮 schema 演化即发生：用户批准 type 枚举钉住、vendor 8 家全量预列（含 claude 标签作用域消歧）、sources 双形式约定——"SCHEMA 与 wiki 共演化"的设计当天走通 ⑤init 硬规则（wiki 不入源仓）纠正了我们此前"docs 文档 wiki 化"的直觉
+- **预期**：kata 核心闭环（init→bind→ingest→search/graph/validate→schema 演化）全部可用
+- **插件改动**：无（纯使用验证）；wiki 仓库三 commit：88cdd68（init）/0e4a496（首批 15 页）/7582f8d（schema 演化）
+- **复验结果**：✅ 全链路通过
+- **遗留**：sync remote 未配（休眠通道，多机需求出现时启用）；wiki-query 回填闭环与 session-ingest 待后续实战；下一步候选源=harnessloop-review-20260716.md（80 条发现）与两份 capability-map
+
+---
+
 ## 2026-07-17 kata 首次迭代：版本漂移修复 + 内容审计发现两处协议文本缺口（2.15.3）
 
 - **场景**：能力图谱发现的 kata 仓库版本漂移（根 SKILL.md frontmatter 2.13.0 vs 四处 manifest 2.15.2），用户指示优先修复；kata 首次走三插件迭代回路

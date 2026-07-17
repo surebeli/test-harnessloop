@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-17 kata 第二轮 ingest：update-vs-create 纪律验证通过 + 一次有教育意义的假警报
+
+- **场景**：ingest harnessloop 严格审查报告（213 行 + findings.json 外部引用）到已有 15 页的 wiki——本轮考点是 update-vs-create 判定（防重复页堆）
+- **现象**：①更新 4 页 / 新建 3 页，判定标准清晰（实体是否已有专属页 × 信息结构是否新概念——如 design-debt 活 backlog 与主页"版本演化叙事"是不同信息结构故新建）②零 schema 演化需求——首轮钉住的枚举当轮即发挥治理作用 ③新建 harnessloop-design-debt.md 活 backlog（P2 逐项 open/已修状态 + m7/nm11/nm12/n9 复测表），后续迭代可直接消费 ④主会话验收时一次假警报：graph neighbors 返回 0 被疑为断链，实为输出契约是 layers BFS 分层而非 neighbors 键——消费方读错契约，非 kata 缺陷；教训=断言工具缺陷前先核对输出 schema ⑤两个真实噪音级观察点：orphan 检测将 SCHEMA/log/index 结构文件计入 true_orphans、log.md 头部格式示例的字面 [[wikilink]] 被计为 dangling link——kata 候选小改进（结构文件豁免/示例文本豁免）
+- **预期**：wiki 生长而非重复
+- **插件改动**：无；wiki commit 51be94f（18 页，hub 网增强：harnessloop.md in/out 10→13）
+- **复验结果**：✅ schema valid、更新纪律合规（updated bump + sources 追加）、design-debt 邻居网完整
+- **遗留**：两个噪音级观察点作为 kata 下轮迭代候选；下一步候选=两份 capability-map ingest 或 wiki-query 回填闭环实测
+
+---
+
 ## 2026-07-17 kata wiki 启动与首次 ingest：全链路 live 验证零缺陷，复利效应实证
 
 - **场景**：用户主导、主会话引导完成 kata 完整启动链——wiki-init 向导（域=AI 插件工程验证知识库、6 分类、plugin enum 维度、sync 就绪、git 化）→ 项目绑定（.llm-wiki.yaml + gitignore，实测绑定解析未回落 common）→ 首次 wiki-ingest（源=docs/validation-log.md 8 条记录）

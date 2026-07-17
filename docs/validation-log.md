@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-17 kata 首次迭代：版本漂移修复 + 内容审计发现两处协议文本缺口（2.15.3）
+
+- **场景**：能力图谱发现的 kata 仓库版本漂移（根 SKILL.md frontmatter 2.13.0 vs 四处 manifest 2.15.2），用户指示优先修复；kata 首次走三插件迭代回路
+- **现象**：①漂移为单点（仅根 SKILL.md frontmatter），但 CHANGELOG 内容审计（2.13.1→2.15.2 逐条判定）发现两处真实协议文本缺口——wiki-spec 的路径穿越防护说明（v2.13.1 安全加固）与 wiki-skill-create 的 --supplement-action 目录（v2.15.1）从未同步进 standalone 协议文本 ②注坏验证：精确复现原始漂移场景（SKILL.md 改回 2.13.0）新 Test 62 必挂并列出四源值 ③主会话验收时复现修复代理预警的既有环境问题（~/.git-ai/bin/git 封装在 fake-HOME 下 exit 126 致 sync 测试假性失败，真实 git 绕行后全绿）——顺带定位了本会话所有 git 操作报 syntax error 的根源 ④发现遗留结构缺口：session-ingest/federate/mcp-server 三技能在 standalone SKILL.md 从无独立章节（早于基线，记入 CHANGELOG 留后续）
+- **预期**：版本单一事实源 + 机械防复发
+- **插件改动**：kata 57d3e3d（v2.15.3，push 1a120d4..57d3e3d，四仓授权+版本同步条件满足）；Test 62 版本一致性守卫自动纳入 pre-commit 与 CI
+- **复验结果**：✅ run_smoke.py 全绿（真实 git 下）、build_skill_md --check、dreaming eval gate precision/recall 1.0；重装 v2.15.3 内容级一致
+- **遗留**：三技能 standalone 章节缺口（kata 后续迭代候选）；本机 git-ai 封装脚本自身的 bash 语法错误（用户环境，非本项目范围，建议用户抽空修）
+
+---
+
 ## 2026-07-17 kata 引入：第三个被测插件入回路，同名碰撞排障与旧版退役
 
 - **场景**：kata（surebeli/kata v2.15.2，LLM wiki 文档维护插件）按既有模式引入 test-harnessloop（submodule + 本地 marketplace 重指 + 脚手架脚本扩为三插件）——继 harnessloop、hopper-plugin 之后第三个纳入"边用边验证"回路的插件

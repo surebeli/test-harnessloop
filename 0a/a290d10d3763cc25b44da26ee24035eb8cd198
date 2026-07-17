@@ -5,19 +5,15 @@ docs/validation-log.md
   "schema_version": "authorship/3.0.0",
   "git_ai_version": "1.6.14",
   "base_commit_sha": "0aa290d10d3763cc25b44da26ee24035eb8cd198",
-  "prompts": {
-    "s_c587ecf7bbc3e2::t_953eef16f2c182": {
+  "prompts": {},
+  "sessions": {
+    "s_c587ecf7bbc3e2": {
       "agent_id": {
         "tool": "claude",
         "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
         "model": "claude-fable-5"
       },
-      "human_author": "litianyi <litianyi@corp.netease.com>",
-      "messages": [],
-      "total_additions": 11,
-      "total_deletions": 0,
-      "accepted_lines": 11,
-      "overriden_lines": 0
+      "human_author": "litianyi <litianyi@corp.netease.com>"
     }
   }
 }

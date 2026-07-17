@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-17 kata 引入：第三个被测插件入回路，同名碰撞排障与旧版退役
+
+- **场景**：kata（surebeli/kata v2.15.2，LLM wiki 文档维护插件）按既有模式引入 test-harnessloop（submodule + 本地 marketplace 重指 + 脚手架脚本扩为三插件）——继 harnessloop、hopper-plugin 之后第三个纳入"边用边验证"回路的插件
+- **现象**：①CHANGELOG 揭示 kata 即 ak-wiki 的改名后继（v2.0.0 rebrand，原文 "previously ak-wiki"），与本机已装旧版 ak-wiki@ak-llm-wiki v1.8.0 技能全同名碰撞（wiki-init/ingest/search/... 等 13 个同名），会话启动时只加载旧版 ak-wiki:* 前缀技能，新装的 kata:* 技能被压制、不可见 ②用户决策卸载旧版 ak-wiki 插件，reload 后确认 kata:* 前缀 v2.15.2 全部 18 个技能正确加载（含 session-ingest/spec/skill-create/federate/mcp-server 5 个新增技能）③三路并行深读同时发现 kata 的一条休眠外部通道（wiki-sync 依赖的 git remote，当前未配置/未激活）与仓库自身的版本漂移（SKILL.md frontmatter 停在 2.13.0，而 plugin.json/marketplace.json 已是 2.15.2）——后者被列为候选的首个 kata 迭代项 ④能力图谱生成过程中遭遇 API 529（服务端持续过载）连续 5 次重试才完成，累计中断约 40 分钟，期间 Workflow 的 resume 机制与退避重试策略均生效，最终三路读取任务完整拿到结果
+- **预期**：kata 应能沿用此前 hopper-plugin 的引入模式顺利接入——submodule 落地、本地 marketplace 重新指向、脚手架脚本从两插件扩为三插件，且会话内 kata:* 技能前缀与仓库文档能力集（18 个 skill）一致，不受本机已装同源旧插件影响
+- **插件改动**：无（本轮为纯引入，未触及 kata/ submodule 或 harnessloop/hopper-plugin 任何文件）
+- **复验结果**：✅ `plugin-status` 显示 kata 内容级一致（与 submodule commit `1a120d4` / v2.15.2 一致）；卸载旧版 ak-wiki 并 reload 后，kata:* 全部 18 个技能实际调用可见（非仅静态清单），同名碰撞问题解除
+- **遗留**：仓库自身版本漂移（SKILL.md frontmatter 2.13.0 vs plugin.json 2.15.2）待修，是候选的首个 kata 迭代项；把项目知识 wiki 化（`docs/validation-log.md`、`docs/*-capability-map.md` 等文档编译进 kata wiki）作为 kata 首个实战使用场景候选，尚待真实执行；`wiki-session-ingest` 涉密会话随 `wiki-sync` 外发的观察点（`--scrub-secrets` 未实现）目前仅为静态读到的风险点，待真实多机同步场景实战验证
+
+---
+
 ## 2026-07-17 hopper-plugin 0.31.0 发布：首次授权 push，政策层从纪律升级为机制
 
 - **场景**：hopper 边用边验证进入迭代阶段——用户采纳"effort 预制 + model 选择规则"三层政策方案并授权 push（附版本同步硬条件）；同一发布收拢三个批次：脚手架抽象档位化、--check-model 三档断言器、政策层机械化四项（dispatcher 政策消费/clamp 可见化/verified-latest 哨兵/setup 政策 lint）

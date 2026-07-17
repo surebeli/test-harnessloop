@@ -1,0 +1,29 @@
+docs/validation-log.md
+  s_c587ecf7bbc3e2::t_decf84cdb60d8a 20-30
+kata
+  s_9bd5ce03ccfba7::t_5dd36ccfe89b6d 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "63241852baf32106d828f3ed43045ea92e1464a9",
+  "prompts": {},
+  "sessions": {
+    "s_9bd5ce03ccfba7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-adc7435a732ced5fe",
+        "model": "unknown"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>"
+    },
+    "s_c587ecf7bbc3e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
+        "model": "claude-fable-5"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>"
+    }
+  }
+}

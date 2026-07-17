@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-17 Chronicler 史官体系建立：haiku 常驻记录角色 + 独立 PR wiki，首跑即产出三项发现
+
+- **场景**：用户需求=为个人与产品 IP/PR 积累素材；设计并落地常驻轻量记录角色——.claude/agents/chronicler.md（haiku）+ 独立 PR wiki ~/.llm-wiki/surebeli-ip（milestones/stories/metrics/drafts/queries 五分类，audience/maturity 维度素材状态机）+ CLAUDE.md 五类触发节点纪律；关键设计=拉取式采集（tail 协议产物文件，harnessloop 协议零侵入）+ haiku 捕获/Sonnet 成稿两级流水
+- **现象**：①首跑回填 15 页（7 milestones/4 stories/4 metrics）质量合格（PR 钩子成立、数据带出处、schema 全过）②haiku 层两个真实缺陷：index 计数虚报 18（实数 15，已修 1f1e7cf，记账规则补入章程）与回执语言漂移到日文（语言纪律补入章程）——两级流水设计的必要性首日即验证 ③用户定语言政策=中文主（SCHEMA Language Policy 落盘 4182224，15 页转换进行中）④意外发现 kata 真实打包缺陷：已安装缓存的 schema_validate.py 因 schema/wiki-schema.json 在仓库根未被打包（marketplace source=./plugin）而无法运行——装机版校验形同虚设，此前未暴露因一直用 submodule 源码路径；记为 kata 下轮迭代候选（与 standalone 三技能章节缺口并列）
+- **预期**：记录零负担、素材可检索、协议不受污染
+- **插件改动**：无；新 agent 定义 + PR wiki 三 commit（fe70f4d 回填/1f1e7cf 计数修正/4182224 语言政策）
+- **复验结果**：✅ 角色卡生效（回退方式运行，reload 后成一等类型）、拉取式采集准确（页面事实与工程文件核对无臆造）、schema/维度合规
+- **遗留**：15 页中文转换在途；chronicler 作为一等 agent 类型待 reload 验证；kata 打包缺陷待修（候选批次：schema 打包 + orphan 结构文件豁免 + 示例文本悬空链豁免 + standalone 三章节）
+
+---
+
 ## 2026-07-17 kata 第二轮 ingest：update-vs-create 纪律验证通过 + 一次有教育意义的假警报
 
 - **场景**：ingest harnessloop 严格审查报告（213 行 + findings.json 外部引用）到已有 15 页的 wiki——本轮考点是 update-vs-create 判定（防重复页堆）

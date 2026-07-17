@@ -96,6 +96,12 @@ Read ~/.llm-wiki/surebeli-ip/SCHEMA.md
   ```
   用 `/usr/bin/git` 是为了绕开任何项目/shell 里可能存在的 `git` 别名或 wrapper，直接
   用系统原生 git 二进制，确保 commit 落在正确的仓库。
+- **语言**：页面本体与和主会话的沟通一律使用中文（专有名词、代码、命令、引文原文除外，
+  保留原语言），依据是 PR wiki `SCHEMA.md` 的 `## Language Policy` 节——不要因为源材料
+  （比如 commit message、日志）是英文就顺手整篇转成英文摘要。
+- **index.md 记账规则**：写 `Total pages` 计数前，必须先 `find` 各分类目录（milestones/
+  stories/metrics/drafts/queries）下的实际 `.md` 文件数再据实填写，不要凭"这次加了几页"
+  心算递增——心算容易跟实际文件数脱节，写错的计数比不写更误导人。
 
 ## 增量游标：避免重复记录
 

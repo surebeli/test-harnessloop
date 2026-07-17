@@ -17,6 +17,17 @@
 
 ---
 
+## 2026-07-18 kata 第二迭代（2.15.4）：装机版校验缺陷根除 + 图误报豁免 + standalone 章节补齐
+
+- **场景**：用户批准的四项候选批次，双 Sonnet 代理并行（A=三代码修复+版本，B=standalone 三章节），Fable 审查验收
+- **现象**：①头号修复=schema/wiki-schema.json 未打包致装机版 schema_validate.py 从未能跑——单源迁入 plugin/schema/（全部活引用同步更新），模拟安装布局固化为 Test 63；终验从安装缓存路径（2.15.4 cache）命中原始 FileNotFoundError 复现路径→valid ②图误报两类豁免共享 STRUCTURAL_FILENAMES 单一事实源（Tests 64/65 注坏验证）③B 组 standalone 章节降级语义诚实（mcp-server 直接标 standalone 完全不可用并给替代方案）④版本判定：Sonnet 以先例分析（minor 仅留新技能能力）推翻主会话预设的 2.16.0，定 2.15.4 patch——委派模式中实现者反向纠正协调者的实例 ⑤新发现：Test 17 解析器测试不密封（被本机真实 wiki 绑定污染，git stash 基线确认既有）→下批候选
+- **预期**：装机版与源码版行为一致
+- **插件改动**：kata dada4fb（2.15.4，push 57d3e3d..dada4fb，版本同步条件满足）；Tests 63/64/65 新增
+- **复验结果**：✅ 终验（缓存路径 schema_validate valid）、重装内容一致、smoke 套件除既有 Test 17 外全绿、build_skill_md --check 过
+- **遗留**：Test 17 密封性（下批候选）；史官触发节点纪律本次首实战（版本 push→SendMessage 事件提示）
+
+---
+
 ## 2026-07-17 Chronicler 史官体系建立：haiku 常驻记录角色 + 独立 PR wiki，首跑即产出三项发现
 
 - **场景**：用户需求=为个人与产品 IP/PR 积累素材；设计并落地常驻轻量记录角色——.claude/agents/chronicler.md（haiku）+ 独立 PR wiki ~/.llm-wiki/surebeli-ip（milestones/stories/metrics/drafts/queries 五分类，audience/maturity 维度素材状态机）+ CLAUDE.md 五类触发节点纪律；关键设计=拉取式采集（tail 协议产物文件，harnessloop 协议零侵入）+ haiku 捕获/Sonnet 成稿两级流水

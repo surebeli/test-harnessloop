@@ -38,6 +38,27 @@
 
 - 三个插件（harnessloop / hopper-plugin / kata）push 前均须 bump 版本信息、保持多处版本文件一致，否则不得 push：见「插件迭代回路」第 5 步与 `.harnessloop/state/control-contract.md`（Irreversible or external-system write 例外条款，user-confirmed 2026-07-17）。版本位置以各仓库实际布局为准：hopper-plugin 见上；kata 是 `plugin/.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json`、`CHANGELOG.md`。
 
+## Chronicler 史官纪律
+
+本项目工程侧产出（三插件迭代、round 收盘、issue 开闭）与「这段应用旅程值得对外讲的故事」
+是两件事，后者交给项目级 agent `chronicler`（`.claude/agents/chronicler.md`，model: haiku）
+专职处理，与主会话的工程执行彻底分开：
+
+- **角色与落点**：chronicler 是本项目的史官，只把工程事件转译成 PR/IP 叙事素材（里程碑/
+  故事弧/可引用数据），写入个人 PR wiki `~/.llm-wiki/surebeli-ip`（区别于工程侧 wiki
+  `~/.llm-wiki/test-harnessloop`，两者不要混淆）。它不改本项目仓、不改任何插件 submodule。
+- **五类触发节点**：轮次收盘、goal 归档、evolution issue 开闭、插件版本 push、live
+  showcase 时刻——主会话在这五类事件发生时，应 `SendMessage` 给会话内已有的 chronicler
+  实例（无实例则用 `Agent` 起一个 `subagent_type: chronicler`），事件提示一行即可（比如
+  "round 0004 收盘了""issue 0009 关了"），具体挖掘细节由 chronicler 自己去拉取。
+- **拉取式设计原则**：harnessloop 协议文本本身不因为 chronicler 的存在而改一个字——不
+  新增"记录钩子"、不在 round-summary.md/decision.md 模板里插入 PR 素材字段。触发是主会话
+  的一行提示，挖掘是 chronicler 自己按固定素材源拉取，工程协议与叙事记录两条线永不交叉。
+- **每周素材盘点**：可跑 `/kata:wiki-digest --path ~/.llm-wiki/surebeli-ip` 看这周攒了
+  哪些 raw 素材、有没有可以升级成 story 的簇。成熟到能成稿的素材簇，由 Sonnet（不是
+  chronicler 本身，chronicler 用 haiku 只管素材拉取）做一次编辑 pass，提炼进
+  `~/.llm-wiki/surebeli-ip/drafts/`。
+
 ## 约束
 
 - app 的开发过程必须走 harnessloop 框架（skill 真实调用名带双前缀：`harnessloop:harnessloop-init` → `harnessloop:harnessloop-loop` / `harnessloop:harnessloop-continue` 等；`harnessloop:init` 这类短写只是触发短语，不是合法 skill 名），不要绕开框架直接开发——绕开就失去了验证意义。

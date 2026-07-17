@@ -1,0 +1,38 @@
+docs/kata-capability-map.md
+  s_c587ecf7bbc3e2::t_ee85cff9ebfaeb 1-221
+docs/validation-log.md
+  s_c587ecf7bbc3e2::t_5c435a3f44cf9f 20-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d2f798efb40f2471cae2708cd4d410c9eedbfba3",
+  "prompts": {
+    "s_c587ecf7bbc3e2::t_ee85cff9ebfaeb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
+        "model": "claude-fable-5"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>",
+      "messages": [],
+      "total_additions": 221,
+      "total_deletions": 0,
+      "accepted_lines": 221,
+      "overriden_lines": 0
+    },
+    "s_c587ecf7bbc3e2::t_5c435a3f44cf9f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
+        "model": "claude-fable-5"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 0,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    }
+  }
+}

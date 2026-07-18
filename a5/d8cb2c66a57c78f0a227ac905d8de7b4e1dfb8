@@ -1,0 +1,31 @@
+.harnessloop/goals/20260718-002-agent-app/goal.md
+  s_c587ecf7bbc3e2::t_f71b90c381f4b1 30-37
+  s_c587ecf7bbc3e2::t_02c5463c43e4d6 89
+  s_c587ecf7bbc3e2::t_0bd93fa360cc1c 82
+.harnessloop/state/current.md
+  s_c587ecf7bbc3e2::t_9a2cde143027ef 10-12
+  s_c587ecf7bbc3e2::t_01b25983f44be5 3
+.harnessloop/goals/20260718-002-agent-app/goal-breakdown.md
+  s_c587ecf7bbc3e2::t_5f87c70ae5ac7e 12-13,16-32
+  s_c587ecf7bbc3e2::t_cdbf9fec64896a 62-63
+  s_c587ecf7bbc3e2::t_127fbff8262713 33
+.harnessloop/goals/20260718-002-agent-app/data-contract.md
+  s_c587ecf7bbc3e2::t_9ce93336972a0f 15
+  s_c587ecf7bbc3e2::t_a5b9cb5d37c0b2 19-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "a5d8cb2c66a57c78f0a227ac905d8de7b4e1dfb8",
+  "prompts": {},
+  "sessions": {
+    "s_c587ecf7bbc3e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b39f5bf8-f328-41b3-b5fd-eb01a465a399",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "litianyi <litianyi@corp.netease.com>"
+    }
+  }
+}

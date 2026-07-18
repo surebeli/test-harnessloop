@@ -27,6 +27,14 @@
 - **决策 2 — L2 展开顺序**：RA-L2 首轮范围为「架构核心优先」，先展开 P1（产品形态）/ P2（Agent 内核抽象层）/ P3（消息流抽象屏障）三支柱；P4–P7（客户端工程 / 身份与商业化 / Console 管理端 / Server 后端）顺延至后续轮次
 - **决策 3 — 仿照 codex app 边界**：仿照对象限定为「功能与交互参照」，具体实现自主设计，不做代码级复制、反编译或资产挪用；合规风险低（仅参照公开可见的产品功能与交互形态进行独立实现，不涉及源码获取或商标冒用）
 
+### RA-L2 确认与架构决策（user-confirmed 2026-07-18，作为 source-of-truth 锁定）
+
+- **RA-L2 架构核心（P1-P3）已确认**：P1 产品形态 / P2 Agent 内核抽象层 / P3 消息流抽象屏障 三支柱展开细化经用户 2026-07-18 确认，状态由 pending 转为 confirmed；P4–P7 顺延至后续轮次
+- **决策 X1 — 本地内核优先**：agent 内核在客户端本地运行（非 server 侧托管）。连带影响：客户端须承担本地内核分发；跨平台（Mac→Windows）双实现负担更重；server 收敛为不跑 agent 本体的瘦控制面
+- **决策 X2 — 统一经 newapi**：所有内核的 LLM 调用统一经由 newapi 网关，newapi 成为计费/成本/能力开关的统一入口
+
+这两个决策使 server 从重后台收敛为瘦业务控制面。
+
 ## Non-Goals
 
 - 不承诺生产级上线或商业化——本 goal 是探索性实验，失败与成功皆为可接受的结果
@@ -71,10 +79,11 @@
 | --- | --- | --- | --- |
 | 用户业务与技术栈重定指令 | 本 `goal.md`（Goal / 业务技术要点 / 技术栈偏好与约束 三节） | 权威（source-of-truth 锁定） | 2026-07-18 |
 | RA-L1 确认与三项决策（七支柱确认 / L2 展开顺序 / 仿照 codex app 边界） | 本 `goal.md`（RA-L1 确认与决策节）+ `goal-breakdown.md`（L1 七支柱表 confirmed / RA-L2 首轮范围） | 权威（source-of-truth 锁定） | 2026-07-18 |
+| RA-L2 架构核心确认 + 架构决策 X1/X2（本地内核优先 / 统一经 newapi） | 本 `goal.md`（RA-L2 确认与架构决策节）+ `goal-breakdown.md`（RA-L2 confirmed / RA-L3 七项议程 D1-D7） | 权威（source-of-truth 锁定） | 2026-07-18 |
 | AskUserQuestion 留痕（本轮及后续逐级确认） | 会话内留痕，逐级确认发生时冻结 | 权威 | 随逐级确认更新 |
 
 ## Status
 
 **proposed（2026-07-18，material change：业务与技术栈重定）**
 
-本 goal 处于 propose 阶段，当前子阶段为需求分析（Requirement Analysis）。五份契约文件（本文件 + goal-breakdown.md + thresholds.md + data-contract.md + feedback-policy.md）已按新业务身份重写落盘，无 `rounds/` 目录、无执行轮。dev 分解明确推迟至需求达 dev-ready 并经用户签署后注入（届时再次执行 `$harnessloop-goal update`）。RA-L1 顶层域结构（七支柱 P1–P7）已经用户 2026-07-18 确认（见 goal-breakdown.md「L1 七支柱」表，状态 confirmed）。下一步：RA-L2 首轮（架构核心 P1-P3，用户指定优先）展开中，pending 用户确认。
+本 goal 处于 propose 阶段，当前子阶段为需求分析（Requirement Analysis）。五份契约文件（本文件 + goal-breakdown.md + thresholds.md + data-contract.md + feedback-policy.md）已按新业务身份重写落盘，无 `rounds/` 目录、无执行轮。dev 分解明确推迟至需求达 dev-ready 并经用户签署后注入（届时再次执行 `$harnessloop-goal update`）。RA-L1 顶层域结构（七支柱 P1–P7）已经用户 2026-07-18 确认（见 goal-breakdown.md「L1 七支柱」表，状态 confirmed）。RA-L2 首轮（架构核心 P1-P3）已经用户 2026-07-18 确认（见上「RA-L2 确认与架构决策」节），并同步锁定两项架构级决策 X1（本地内核优先）/ X2（统一经 newapi），server 由此收敛为瘦业务控制面。下一步：RA-L3 议程（7 项决策 D1-D7，见 goal-breakdown.md）确认中，pending 用户确认。

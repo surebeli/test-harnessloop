@@ -6,7 +6,7 @@ Positive:
 
 - Expected behavior: 验收标准（见 `goal.md` Acceptance Criteria）达成，或——按本 goal 特有的探索性条款——获得有充分证据支撑的"可行性否定结论"（见下方补充条款）
 - Required evidence: 各验收标准对应的验证方法产出（见 `thresholds.md` Verification Thresholds）
-- Next action: 归档进下一子目标（按 `goal-breakdown.md` 的 S1→S2→S3→S4→S5→S6→S7 顺序推进）
+- Next action: 归档进下一级（按 `goal-breakdown.md` 的 RA-L1→RA-L2→RA-L3→RA-L4→dev-readiness gate 顺序推进；dev-readiness 签署后再次执行 `$harnessloop-goal update` 注入 dev 分解）
 
 Negative:
 
@@ -59,7 +59,7 @@ Next scope-lock:
 
 ## 补充条款：探索性否定结论（本 goal 特有）
 
-- 若某项探索性结论——尤其是 Success Condition ①"可行性结论"——判定为**否定**（例如：三端 demo 端到端不可行、协议/成本开销不可持续、某项技术选型证伪），且该否定结论**有充分证据支撑**（证据路径可追溯、结论基于本 goal 实际产出而非臆测），则该反馈按 **positive**（探索成功）处理，而非 negative。
+- 若某项探索性结论——尤其是 Success Condition ①"可行性结论"——判定为**否定**（例如：内核抽象/消息流屏障设计不可行、Mac→Windows 跟随开发机制不可行、server 选型无可行方案、agent app 三端整体可行性证伪），且该否定结论**有充分证据支撑**（证据路径可追溯、结论基于本 goal 实际产出而非臆测），则该反馈按 **positive**（探索成功）处理，而非 negative。
 - 理由：本 goal 的 Success Condition 明确将"诚实的失败分析"列为可行性结论的合法形式之一（见 `goal.md`）；探索性 goal 的价值在于获得有证据支撑的结论（无论正负），而非强制达成预设的技术结果。
 - 边界（不得滥用本条款）：
   - 本条款仅适用于探索性结论本身（`goal.md` Success Condition ①"可行性结论"），**不适用于**协议执行故障——例如 `verify_protocol.py` 失败、证据缺失、evidence 路径不可达等，此类情形仍按标准 negative 流程处理（先查执行故障，见上方 Negative 分类）

@@ -39,6 +39,14 @@
 
 - **决策 D3 — Server 技术选型确认**：RA-L3 议程 D3（Server 技术选型）经用户 2026-07-21 确认，采纳方案 A：**TypeScript + NestJS + PostgreSQL**。具体：应用内 JWT license 签发/校验/吊销；多租户采用共享库 + `tenant_id`（非独立 schema/数据库）；坐席（seat/membership）与能力开关（feature flags）自建表；new-api 仅作为 Management API 集成对象（token/channel/用量对账等），**非**多租户 SaaS 主账本。依据：T-002 grok 调研（`.hopper/handoffs/T-002-output.md`）。对应设计 wiki 页 `server/server-stack-selection.md` 的 `design_status` 同步由 draft 转 confirmed。
 
+### RA-L3 D1 评审结论与决策（2026-07-21）
+
+- **决策 D1（阶段性）— 首版 spec 双轨对抗评审 REWORK，不予确认**：RA-L3 议程 D1（内核抽象接口规格）的首版正式 spec（设计 wiki `kernel/d1-kernelport-spec.md`）经**双轨对抗评审**——第三方轨（codex，hopper 派发任务 T-004，`.hopper/handoffs/T-004-output.md`）Verdict **REWORK**，15 findings，5 BLOCKER；内部轨（Sonnet，本会话独立执行）Verdict **negative**，11 项 must-fix——**双双否决**。两轨互相独立执行、互不参照产生内容，仍收敛到同一组 **7 条交集硬伤**：Claude 生命周期不同构 / INV-5 自相矛盾（裂缝下推给 UI/P3 违反自身不变量）/ newapi 计费不可归因到具体 run / capabilities 静态声明违反 INV-4（能力显式声明不变量）/ canUseTool 回调桥接可致永久挂起 / Hermes stop 能力"未能确认"被对照表当作"已确认" / seq 断线重放语义存在悬空引用。评审综合与各自独有发现（codex 8 项 + Sonnet 4 项）详见设计 wiki `research/d1-review-dual-track.md`。
+- **核心诊断**："单一窄腰无缝跨四内核"这一核心主张被过度声称；Claude Agent SDK 的生命周期不同构（`query()` 单阶段 vs `createSession()`/`send()` 两阶段）是四内核间最深的一条裂缝，不是字段级适配能抹平的；多个已在 RA-L2/X1/X2 层面确认的架构职责（计费权威在 newapi、内核切换对 UI 透明）在 D1 当前设计里找不到生效路径。
+- **落盘处置**：设计 wiki `kernel/d1-kernelport-spec.md` 的 `design_status` 已由 `draft` 改为 `superseded`（正文未删除，保留作审计与 v2 重设计对照基线）；`goal-breakdown.md` RA-L3 议程表 D1 行状态标注同步改为 `negative-rework`。
+- **Next（待用户决定）**：D1 v2 重设计方向——是先做 **conformance spike**（锁定四个具体 adapter profile/版本做 7 方法逐项验证，参考 codex Next recommendation）优先验证，还是**直接按两轨建议重构**（生命周期分离 Claude 特例、审批状态机、能力协商模型、newapi 关联字段等）——留待用户在下一轮确认。
+- **feedback-policy 适用性说明**：本次 D1 否决属于 `feedback-policy.md`「补充条款：探索性否定结论」的适用范围——D1 是 RA-L3 关键设计决策之一，本次评审否决是**有充分证据支撑的阶段性否定结论**（证据路径可追溯至 `.hopper/handoffs/T-004-output.md` 与设计 wiki `research/d1-review-dual-track.md`，结论基于实际评审产出而非臆测），按该条款应作为**正常迭代（探索成功的一种形式）处理，不计为 negative/失败**；不适用于协议执行故障（本次评审派发与落盘过程本身无执行故障）。
+
 ## Non-Goals
 
 - 不承诺生产级上线或商业化——本 goal 是探索性实验，失败与成功皆为可接受的结果

@@ -1,0 +1,1 @@
+{"seq":1,"ts":"2026-07-21T08:53:45.329Z","task_id":"T-007","vendor":"grok","phase":"starting","kind":"lifecycle","message":"Background task queued.","source":"runner","terminal":false}

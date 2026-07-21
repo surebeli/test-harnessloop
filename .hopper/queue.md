@@ -15,11 +15,12 @@ Anchor: `.hopper/queue.md::root`
 | ID | Task-type | Status | Depends | Priority | Brief | Vendor |
 |----|-----------|--------|---------|----------|-------|--------|
 | T-001 | code-review-adversarial | done | | normal | 对 harnessloop submodule commit 6936fbc（setup wizard 完整实现：新 skill+check_setup.py+profiles+四 SKILL 接线+validate 第 3 阶段）做只读对抗评审 | codex |
-| T-002 | prd-research | pending | | normal | agent app 的瘦业务控制面 server 技术选型调研（不跑 agent，管 license/多租户/坐席/能力开关/费用/newapi 集成；开发者非 server 专家，重生态成熟度·低运维·可维护性·成本敏感）——2-3 个现实栈方案对比+推荐 | grok |
-| T-003 | prd-research | pending | | normal | agent 内核与网关生态实况调研：openclaw/hermas 实际形态与控制接口、new-api/newapi 网关的用量·计费·模型管理 API、codex app sdk 与 claude code sdk 的 agent 能力暴露面——为 P2 内核抽象窄腰设计建立真实接口依据 | grok |
+| T-002 | prd-research | done | | normal | agent app 的瘦业务控制面 server 技术选型调研（不跑 agent，管 license/多租户/坐席/能力开关/费用/newapi 集成；开发者非 server 专家，重生态成熟度·低运维·可维护性·成本敏感）——2-3 个现实栈方案对比+推荐 | grok |
+| T-003 | prd-research | done | | normal | agent 内核与网关生态实况调研：openclaw/hermas 实际形态与控制接口、new-api/newapi 网关的用量·计费·模型管理 API、codex app sdk 与 claude code sdk 的 agent 能力暴露面——为 P2 内核抽象窄腰设计建立真实接口依据 | grok |
 | T-004 | code-review-adversarial | done | | normal | 对 D1 KernelPort 内核窄腰设计 spec 做只读对抗性设计评审（窄腰能否真跨四内核·审批与 interrupt 收口是否手挥·newapi 边车漏洞·能力漂移）——异构第三方视角 | codex |
 | T-005 | prd-research | done | | normal | D1 conformance spike：定向补 openclaw+hermes+newapi 的"未能确认"接口事实（session 生命周期/stop-delete/capabilities 协商与变更/事件 seq 与断线重放/审批 RPC 与关联 id/run 级取消寻址/newapi token 粒度与用量归因 API）——为 D1 v2 重设计建硬事实 | grok |
-| T-006 | code-review-adversarial | pending | | normal | 对 D1 KernelPort v2 spec 做只读对抗性设计复核（11 消解是否真消解·5 开放点 blocker-or-defer·SDK 延后是否干净·事实基线一致性）——异构第三方视角 | grok |
+| T-006 | code-review-adversarial | done | | normal | 对 D1 KernelPort v2 spec 做只读对抗性设计复核（11 消解是否真消解·5 开放点 blocker-or-defer·SDK 延后是否干净·事实基线一致性）——异构第三方视角 | grok |
+| T-007 | code-review-adversarial | pending | | normal | 对 D1 KernelPort v3 定向复核：6 处修复是否落对（尤其 openclaw 原生 steer）+ openclaw sessions.steer 精确语义核实 + v3 有无新矛盾 + 5 残留点严重性 | grok |
 
 ---
 

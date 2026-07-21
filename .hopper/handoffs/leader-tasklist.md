@@ -196,3 +196,23 @@ hopper 默认 timeout 处理。
 5. v2 新引入缺陷。
 
 **产出**：Summary / 逐条 findings（引 spec 章节/行号）/ Verdict（PASS|PASS_WITH_NOTE|REWORK|FAIL）/ Next recommendation。落盘 `.hopper/handoffs/T-006-output.md`。**Read-only**：不改任何文件（尤其不写 ~/.llm-wiki/）。语言：中文。
+
+---
+
+## T-007
+
+**Task-type**: `code-review-adversarial` · **Vendor**: grok（掷签，同 v2 复核者，有上下文）· **只读定向复核 · web-search 开**
+
+**评审对象**：`/Users/litianyi/.llm-wiki/agent-app-design/kernel/d1-kernelport-spec-v3.md`（715 行，D1 KernelPort v3 局部修订）。
+对照：同目录 `kernel/kernel-ecosystem-facts.md`（事实基线）、`research/d1-v2-review-dual-track.md`（你上轮 v2 复核，含你抓到的 openclaw sessions.steer 事实回退）、`kernel/d1-kernelport-spec-v2.md`（被 superseded 的 v2）。
+
+**背景**：v3 是针对你上轮 v2 复核的局部修订，施加 6 处修复（§12 变更记录）：①openclaw 恢复原生 sessions.steer（cancel+resend 仅 hermes）②溶解 INV-5 矛盾 ③溶解 nextRunId 时序（改用 interrupt 返回值 steerResendRunId）④审批超时终态由内核信号驱动 ⑤零 active run 竞态保护+审批定序 ⑥加 protocolVersion + F-05/F-11 降级部分化解。
+
+**定向任务（只盯改动+事实，不必全文重审）**：
+1. **6 处修复是否真落对**（读 §6.1/§6.1a/§6.2/§9.3/§10/§12）——尤其你上轮抓的 openclaw 原生 steer 是否真的改成了 sessions.steer 直映射、cancel+resend 是否真收窄仅 hermes。
+2. **openclaw sessions.steer 精确语义核实**（web-search）：sessions.steer 是否真正"打断并保留已产出内容再注入"、是否接受显式 runId、返回字段形状——这是 v3 撰写者自认唯一残留事实缺口，请核实或标"未能确认"。
+3. **v3 有无新引入矛盾**（局部修订常带新问题）：steerResendRunId 关联、审批定序、零 active run 窗口保护三处的自洽性。
+4. **5 残留点严重性判定**（blocker 前必解 vs defer）：openclaw steer 精确语义、server_override 生产通道、完成屏障超时上限、protocolVersion 无协商流程、v3 未经独立复核。
+5. 事实基线一致性——有无新的"未能确认当已落地"。
+
+**产出**：Summary / findings（引 v3 章节行号）/ Verdict（PASS|PASS_WITH_NOTE|REWORK|FAIL）/ Next。落盘 `.hopper/handoffs/T-007-output.md`。**Read-only**：不改任何文件（尤其不写 ~/.llm-wiki/）。中文。

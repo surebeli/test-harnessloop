@@ -176,3 +176,23 @@ hopper 默认 timeout 处理。
 **产出（output.md）**：按 A/B/C 分节，逐条给"确认到的事实 + 来源 URL"或"未能确认"。对每条标注它解决评审的哪个 must-fix（如 A2→capabilities_changed / C1→newapi 归因）。**信息稀缺处诚实标注，宁缺毋造**。语言：中文。
 
 **Read-only**：不改文件，结论落盘 `.hopper/handoffs/T-005-output.md`。
+
+---
+
+## T-006
+
+**Task-type**: `code-review-adversarial` · **Vendor**: grok（掷签结果，见 `.hopper/AGENTS.md`）· **只读设计复核 · web-search 可用**
+
+**评审对象（绝对路径，在本仓库之外）**：`/Users/litianyi/.llm-wiki/agent-app-design/kernel/d1-kernelport-spec-v2.md`（618 行，D1 KernelPort 内核窄腰 v2 设计）。
+对照（同目录）：`kernel/kernel-ecosystem-facts.md`（openclaw/hermes/new-api 已确认事实基线）、`research/d1-review-dual-track.md`（v1 双轨评审 19 项 must-fix）。
+
+**背景**：v2 范围收窄到 openclaw+hermes（SDK 内核延后），针对 v1 评审重设计，声称消解 10 条 + 部分化解 1 条 + SDK 延后 3 条 + 仍开放 5 条。
+
+**任务（对抗性复核，证伪找硬伤）**：
+1. v2 声称"已消解"的 10 条是否真消解还是又手挥（INV-5 修订自洽性、审批状态机闭合性、cancel+resend 是否真用 openclaw runId、capabilities 变更"我方 override 通道"是否定义清、seq/断线恢复责任方）。
+2. v2 自评 5 开放点逐个判 blocker vs defer：newapi 请求级 correlation 未确认、server_override 下发协议未定义、hermes 审批超时非官方承诺、degraded+forceResolvedApprovals 定序、契约无版本治理。
+3. SDK-延后是否干净（有无 SDK 专属假设泄漏 v2）。
+4. 事实基线一致性（有无把"未能确认"当"能落地"，v1 F-02 错误是否复发）。
+5. v2 新引入缺陷。
+
+**产出**：Summary / 逐条 findings（引 spec 章节/行号）/ Verdict（PASS|PASS_WITH_NOTE|REWORK|FAIL）/ Next recommendation。落盘 `.hopper/handoffs/T-006-output.md`。**Read-only**：不改任何文件（尤其不写 ~/.llm-wiki/）。语言：中文。

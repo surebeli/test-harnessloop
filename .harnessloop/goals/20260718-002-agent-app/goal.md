@@ -47,6 +47,24 @@
 - **Next（待用户决定）**：D1 v2 重设计方向——是先做 **conformance spike**（锁定四个具体 adapter profile/版本做 7 方法逐项验证，参考 codex Next recommendation）优先验证，还是**直接按两轨建议重构**（生命周期分离 Claude 特例、审批状态机、能力协商模型、newapi 关联字段等）——留待用户在下一轮确认。
 - **feedback-policy 适用性说明**：本次 D1 否决属于 `feedback-policy.md`「补充条款：探索性否定结论」的适用范围——D1 是 RA-L3 关键设计决策之一，本次评审否决是**有充分证据支撑的阶段性否定结论**（证据路径可追溯至 `.hopper/handoffs/T-004-output.md` 与设计 wiki `research/d1-review-dual-track.md`，结论基于实际评审产出而非臆测），按该条款应作为**正常迭代（探索成功的一种形式）处理，不计为 negative/失败**；不适用于协议执行故障（本次评审派发与落盘过程本身无执行故障）。
 
+### RA-L3 D1 rework 决策（user-confirmed 2026-07-21，作为 source-of-truth 锁定）
+
+- **决策 ①（v1 scope 收敛）— KernelPort v1 聚焦本地进程内核**：v1 抽象接口范围收敛为 **openclaw（默认）+ hermes** 两个本地进程内核——二者同属本地进程、Gateway 结构契合，可在同一窄腰下合理适配；**codex app sdk / claude code sdk 两内核降为后续 profile**（不在 v1 scope 内，是否及何时展开留待后续轮次视需要另起议程）。此举消解评审对"单一窄腰无缝跨四内核"的"过度声称"批评——SDK 内核在 goal.md「业务技术要点」节原文措辞即为"兼容**考虑**"，非"必须支持"，v1 收窄不违背既有 source-of-truth。
+- **决策 ②（rework 方式）— spike-first：先补事实、再重设计**：D1 v2 不直接在 v1 spec 上打补丁重构，而是先执行 **conformance spike**——针对 openclaw + hermes 两个内核，逐项补齐双轨评审标出的"未能确认"事实缺口（如 Hermes stop 能力、newapi 计费查询接口、事件 seq/时间戳原生支持等），落盘为可验证的硬事实基线；再在该硬事实基线上重设计 D1 v2。目的：避免 v2 重蹈 v1"未验证先声称"的覆辙。
+- **SDK profile 化对 5 BLOCKER 的消解与残留**：v1 spec 双轨评审第三方轨（codex T-004，`.hopper/handoffs/T-004-output.md`）标出 5 项 BLOCKER。SDK 内核降为后续 profile、不在 v1 scope 后，其中 2 项因"争议主体本轮不在 scope 内"而随之消解：
+  - **F-01（Claude 生命周期不同构：`query()` 单阶段 vs `createSession()`/`send()` 两阶段）—— 消解**
+  - **F-04（`canUseTool` 回调桥接可致永久挂起）—— 消解**
+
+  其余仍需在 D1 v2（scope=openclaw+hermes）中解决，且对 openclaw+hermes 同样成立、不因 SDK 延后而消解：
+  - F-07 — INV-5 自相矛盾（裂缝下推给 UI/P3 违反自身不变量）
+  - F-09 — newapi 计费不可归因到具体 run
+  - F-11 — capabilities 静态声明违反 INV-4（缺 `capabilities_changed` 事件）
+  - F-02 — Hermes stop 能力"未能确认"被对照表当作"已确认"
+  - F-12/F-13 — seq / 断线重放语义存在悬空引用
+  - error code 枚举不完整（源自内部 Sonnet 轨 11 项 must-fix）
+  - run 串行化 / stop 时序（cancel+resend 无 run 级寻址或完成屏障；对应 F-08 及 codex Next recommendation 中"run-targeted cancel 与 terminal barrier"）
+  - 多 session 场景未覆盖（源自内部 Sonnet 轨 11 项 must-fix）
+
 ## Non-Goals
 
 - 不承诺生产级上线或商业化——本 goal 是探索性实验，失败与成功皆为可接受的结果

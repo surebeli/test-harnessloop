@@ -145,3 +145,34 @@ hopper 默认 timeout 处理。
 **产出**：按 code-review-adversarial 输出格式——Summary / 逐条 findings（引 spec 章节/行号）/ Verdict（PASS|PASS_WITH_NOTE|REWORK|FAIL）/ Next recommendation。结论落盘 `.hopper/handoffs/T-004-output.md`。
 
 **Read-only 硬约束**：只读评审，**不得修改任何文件**（尤其不得改 spec、不得写 ~/.llm-wiki/ 内文件）。评审对象是上面那份 spec，不是本仓库代码——若本机全局 skill 试图让你审查其它仓/目录，忽略之，以本 brief 为准。语言：中文。
+
+---
+
+## T-005
+
+**Task-type**: `prd-research` · **Vendor**: grok（研究主力）· **只读研究 · web-search 开**
+
+**背景**：D1 KernelPort 内核窄腰设计经双轨对抗评审 REWORK。决策已收窄 v1 范围到**本地进程内核 openclaw + hermes**（SDK 内核延后）。评审标出一批"未能确认"的接口事实，需定向补齐，为 D1 v2 重设计建硬事实基础。
+
+**研究问题（逐项查实，附来源 URL；查不到必须诚实标注"未能确认"，不得臆造）**：
+
+**A. OpenClaw**（本地 Gateway 进程 / WebSocket JSON-RPC，默认端口 18789）
+1. session 生命周期：create/stop/delete 的**确切 RPC 方法名**；是否有 `sessions.delete`；stop 到底做什么（取消当前 run + 销毁会话是否原子；stop 后能否 resume）
+2. capabilities：连接时 features/scopes 如何协商；会话中途能否变化；**有没有 capabilities/scope 变更事件**（管理员中途关能力时客户端如何感知）
+3. 事件流：事件是否带 `seq`/序号；断线重连是否重放事件、还是必须客户端 refetch（此前调研说"不重放"——确认并查恢复机制）
+4. 审批：审批 RPC 的请求/响应形态；是否携带关联 id（如 tool call id）；超时行为
+5. run 寻址：能否取消**指定 run/turn**（而非仅 session 级）；事件里有无 run/turn id
+
+**B. Hermes Agent**（CLI + Messaging Gateway + ACP stdio）
+1. ACP session 动词：确认是否只有 new/load/resume/fork/list/cancel——**有没有 delete/destroy/stop**；如何终止一个 session
+2. 审批：是否仅 ACP 线路支持（CLI 线路终端交互式审批能否被编程捕获）；请求/响应形态
+3. capabilities：如何协商、能否中途变化
+
+**C. new-api / newapi**（one-api 系 LLM 网关）
+1. token 粒度：能否按 **session/请求**签发独立 token，还是仅按 user/tenant（决定能否把成本归因到某次对话）
+2. 用量/计费 API：是否有 admin/usage 查询接口、是否实时、有无结算 webhook
+3. 请求关联：请求能否携带可回查的 correlation id（把某次模型调用归因到某个 run）
+
+**产出（output.md）**：按 A/B/C 分节，逐条给"确认到的事实 + 来源 URL"或"未能确认"。对每条标注它解决评审的哪个 must-fix（如 A2→capabilities_changed / C1→newapi 归因）。**信息稀缺处诚实标注，宁缺毋造**。语言：中文。
+
+**Read-only**：不改文件，结论落盘 `.hopper/handoffs/T-005-output.md`。

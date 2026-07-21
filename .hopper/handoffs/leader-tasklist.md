@@ -124,3 +124,24 @@ hopper 默认 timeout 处理。
 **产出要求（output.md）**：逐项给出确认到的事实（附来源 URL）；对每个内核标出其集成模型（本地进程 vs 托管 SDK）与关键接口；给一张"抽象窄腰 × 各内核落地/缺口"的对照。**信息稀缺处必须诚实标注"未能确认"，不得臆造接口**。web search 开启。语言：中文。
 
 **Read-only**：不改文件，结论落盘 `.hopper/handoffs/T-003-output.md`。
+
+---
+
+## T-004
+
+**Task-type**: `code-review-adversarial` · **Vendor**: codex（掷签结果，见 `.hopper/AGENTS.md`）· **只读设计评审**
+
+**评审对象（绝对路径，在本仓库之外）**：`/Users/litianyi/.llm-wiki/agent-app-design/kernel/d1-kernelport-spec.md`（356 行，D1 KernelPort 内核窄腰设计 spec）。
+事实基线（同目录，供核对）：`/Users/litianyi/.llm-wiki/agent-app-design/kernel/kernel-ecosystem-facts.md`（openclaw/hermes/new-api/codex-sdk/claude-sdk 的真实接口，含「未能确认」标注）。
+
+**任务**：对这份内核抽象窄腰设计做一次**对抗性设计评审**，目标是证伪、找硬伤，而非背书。重点攻击面：
+1. **窄腰是否真跨四内核**：逐一检验 openclaw(WebSocket JSON-RPC Gateway)/hermes(CLI+Gateway+ACP stdio)/codex-sdk(Thread/Turn JSON-RPC)/claude-sdk(进程内 query()+canUseTool) 上，7 个 KernelPort 方法能否落地；对照表有没有把「未能确认」当「能落地」。
+2. **审批归一是否死锁**：Claude canUseTool 同步回调桥接成异步 approval_request+respondApproval，超时/竞态/与 Hooks 改写 input 的一致性。
+3. **interrupt/steer 降级责任归属**是否自洽、有没有把难题踢给未定的 P3。
+4. **newapi 边车定位漏洞**：turn_complete.usage 与 newapi 计费口径不一致时实时余额怎么办。
+5. **能力漂移**：capabilities() 静态声明 vs 会话级协商，缺 capabilities_changed 事件。
+6. 找 spec 第 9 节自评 5 点之外的新缺陷。
+
+**产出**：按 code-review-adversarial 输出格式——Summary / 逐条 findings（引 spec 章节/行号）/ Verdict（PASS|PASS_WITH_NOTE|REWORK|FAIL）/ Next recommendation。结论落盘 `.hopper/handoffs/T-004-output.md`。
+
+**Read-only 硬约束**：只读评审，**不得修改任何文件**（尤其不得改 spec、不得写 ~/.llm-wiki/ 内文件）。评审对象是上面那份 spec，不是本仓库代码——若本机全局 skill 试图让你审查其它仓/目录，忽略之，以本 brief 为准。语言：中文。

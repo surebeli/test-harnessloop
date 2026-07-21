@@ -35,6 +35,10 @@
 
 这两个决策使 server 从重后台收敛为瘦业务控制面。
 
+### RA-L3 D3 确认与决策（user-confirmed 2026-07-21，作为 source-of-truth 锁定）
+
+- **决策 D3 — Server 技术选型确认**：RA-L3 议程 D3（Server 技术选型）经用户 2026-07-21 确认，采纳方案 A：**TypeScript + NestJS + PostgreSQL**。具体：应用内 JWT license 签发/校验/吊销；多租户采用共享库 + `tenant_id`（非独立 schema/数据库）；坐席（seat/membership）与能力开关（feature flags）自建表；new-api 仅作为 Management API 集成对象（token/channel/用量对账等），**非**多租户 SaaS 主账本。依据：T-002 grok 调研（`.hopper/handoffs/T-002-output.md`）。对应设计 wiki 页 `server/server-stack-selection.md` 的 `design_status` 同步由 draft 转 confirmed。
+
 ## Non-Goals
 
 - 不承诺生产级上线或商业化——本 goal 是探索性实验，失败与成功皆为可接受的结果
@@ -80,6 +84,7 @@
 | 用户业务与技术栈重定指令 | 本 `goal.md`（Goal / 业务技术要点 / 技术栈偏好与约束 三节） | 权威（source-of-truth 锁定） | 2026-07-18 |
 | RA-L1 确认与三项决策（七支柱确认 / L2 展开顺序 / 仿照 codex app 边界） | 本 `goal.md`（RA-L1 确认与决策节）+ `goal-breakdown.md`（L1 七支柱表 confirmed / RA-L2 首轮范围） | 权威（source-of-truth 锁定） | 2026-07-18 |
 | RA-L2 架构核心确认 + 架构决策 X1/X2（本地内核优先 / 统一经 newapi） | 本 `goal.md`（RA-L2 确认与架构决策节）+ `goal-breakdown.md`（RA-L2 confirmed / RA-L3 七项议程 D1-D7） | 权威（source-of-truth 锁定） | 2026-07-18 |
+| RA-L3 D3 确认（Server 技术选型 = TypeScript+NestJS+PostgreSQL） | 本 `goal.md`（RA-L3 D3 确认与决策节）+ `goal-breakdown.md`（RA-L3 议程表 D3 confirmed）+ `.hopper/handoffs/T-002-output.md`（T-002 grok 研究） | 权威（source-of-truth 锁定） | 2026-07-21 |
 | AskUserQuestion 留痕（本轮及后续逐级确认） | 会话内留痕，逐级确认发生时冻结 | 权威 | 随逐级确认更新 |
 
 ## Status

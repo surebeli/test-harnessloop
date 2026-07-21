@@ -19,7 +19,7 @@
 | --- | --- | --- |
 | D1 | 内核抽象接口规格 | agent 内核抽象接口设计（openclaw 默认 / hermas 等可切 / codex app sdk·claude code sdk 兼容） |
 | D2 | 消息 schema 规格 | UI 消息流数据源 与 agent 输入输出消息源 之间的屏障层 schema 设计 |
-| D3 | Server 技术选型 | **需调研·已授权 hopper research**；X1 确定后 server 收敛为瘦控制面（license/租户/坐席/能力开关/费用/newapi 设置），选型范围随之收窄 |
+| D3 | Server 技术选型 | **confirmed（user-confirmed 2026-07-21）**：TypeScript + NestJS + PostgreSQL；应用内 JWT license（签发/校验/吊销）+ 共享库多租户（`tenant_id`，非独立 schema/数据库）+ 自建坐席（seat/membership）与能力开关（feature flags）表；new-api 仅作为 Management API 集成对象（token/channel/用量对账等），非多租户主账本。依据：T-002 grok 研究（`.hopper/handoffs/T-002-output.md`）。X1 确定后 server 收敛为瘦控制面（license/租户/坐席/能力开关/费用/newapi 设置），选型范围随之收窄 |
 | D4 | Mac→Windows 跟随开发机制 | 保留平台特点的同时保证功能与交互细节对齐 |
 | D5 | 仿 codex app 产品规格 | 功能与交互参照（不做代码级复制），产品规格落地 |
 | D6 | newapi 集成方式 | X2 确定后，内核 LLM 调用统一经 newapi 网关的具体接入方式 |

@@ -65,6 +65,14 @@
   - run 串行化 / stop 时序（cancel+resend 无 run 级寻址或完成屏障；对应 F-08 及 codex Next recommendation 中"run-targeted cancel 与 terminal barrier"）
   - 多 session 场景未覆盖（源自内部 Sonnet 轨 11 项 must-fix）
 
+### RA-L3 D1 v2 双轨复核决策（2026-07-21）
+
+- **决策 D1（v2 阶段）— v2 spec 双轨复核 REWORK，两轨分歧，不予确认**：RA-L3 议程 D1 的 v2 正式 spec（设计 wiki `kernel/d1-kernelport-spec-v2.md`，scope=openclaw+hermes）经**双轨复核**——第三方轨（grok，hopper 派发任务 T-006，`.hopper/handoffs/T-006-output.md`）Verdict **REWORK**（3 处 BLOCKER + 2 处 HIGH）；内部轨（Sonnet，本会话独立执行）Verdict **positive-可小修**（对 v2 §10 自评"10 条已消解"逐条复核，判 7 条真消解、3 条部分消解，未判出任何一条未消解）。**两轨 verdict 分歧**——不同于 v1 spec 双轨评审的"双双否决、收敛出交集硬伤"，本次是"一负一正"。
+- **分歧的核心与价值**：分歧集中在 F-07（INV-5 自相矛盾）一项，根源是一处**事实回退**——grok 核实出 openclaw 原生支持 `sessions.steer`（设计 wiki `kernel-ecosystem-facts.md` 第 42 行明确列出，且与 T-003 原始研究产物一致），但 v2 spec §5/§6.1/§8 在没有新否定证据的情况下，把这一已确认事实静默抹除，断言 openclaw 无原生 steer、仅走 abort，进而设计了内部 cancel+resend 降级路径整条替代覆盖 openclaw——grok 判定这是 v1 F-02 类问题（"未能确认"当"已确认"处理）的同类复发，方向相反但性质相同（这次是把"已确认"当"不存在"处理）。**内部 Sonnet 复核未做独立的官方文档/事实基线交叉核查，沿用了 v2 正文的表述，因而漏掉了这条事实回退**，误判 F-07 为真消解，是两轨分歧的根本原因。这一分歧证明：第三方异构复核（不同 vendor、强制 web-search 交叉官方文档）能够抓到同源内部复核（未独立核查事实、容易沿用被评审对象自身叙事）的系统性盲区——分歧本身不是噪声，而是保留双轨复核流程（尤其保留异构第三方轨）的直接证据与理由。
+- **落盘处置**：设计 wiki `kernel/d1-kernelport-spec-v2.md` 的 `design_status` 已由 `draft` 改为 `superseded`（正文未删除，保留作审计与 v3 修订对照基线），顶部已加双轨复核 REWORK 通知；综合复核结论见设计 wiki `research/d1-v2-review-dual-track.md`；`goal-breakdown.md` RA-L3 议程表 D1 行状态标注同步更新为"D1 v2 双轨复核 REWORK→D1 v3"。
+- **D1 v3 局部修复清单（6 条，非推倒重来）**：两轨均认为 v2 的 scope 收窄、F-02/F-03/F-09/F-10/F-14、SDK 延后方向正确，只需局部修复：① openclaw 采用原生 `sessions.steer`（cancel+resend 降级路径收窄为仅 hermes）→ 同时溶解 INV-5/F-07 三处互斥与 `nextRunId` 时序悖论；② 审批超时终态触发机制（`timeoutAuthority` 字段钉死 openclaw/hermes 双时钟权威）；③ cancel+resend（收窄后）完成屏障零 active run 竞态（补超时与失败路径）；④ `degraded`↔`forceResolvedApprovals` 定序（grok 独立同判 BLOCKER，两轨在此项收敛）；⑤ F-05（`updatedInput`）/F-11（capabilities override 通道）从"已消解"降级为"部分化解"的诚实表述；⑥ 加 `protocolVersion`/`contractVersion` 字段（呼应 v1 遗留 S-09，两轮独立评审均指出但未落地）。详见设计 wiki `research/d1-v2-review-dual-track.md` 第 4 节。
+- **feedback-policy 探索条款适用性说明**：本次 v2 复核分歧属于 `feedback-policy.md`「补充条款：探索性否定结论」的适用范围——D1 是 RA-L3 关键设计决策之一，本次复核（含其内部分歧）是**有充分证据支撑的阶段性结论**（证据路径可追溯至 `.hopper/handoffs/T-006-output.md` 与设计 wiki `research/d1-v2-review-dual-track.md`，结论基于实际复核产出而非臆测，且两轨分歧本身已被溯源到具体可核验的事实回退，不是主观判断分歧），按该条款应作为**正常迭代（探索成功的一种形式）处理，不计为 negative/失败**；不适用于协议执行故障（本次两轮 hopper 派发与设计 wiki 落盘过程本身均无执行故障）。
+
 ## Non-Goals
 
 - 不承诺生产级上线或商业化——本 goal 是探索性实验，失败与成功皆为可接受的结果

@@ -216,3 +216,22 @@ hopper 默认 timeout 处理。
 5. 事实基线一致性——有无新的"未能确认当已落地"。
 
 **产出**：Summary / findings（引 v3 章节行号）/ Verdict（PASS|PASS_WITH_NOTE|REWORK|FAIL）/ Next。落盘 `.hopper/handoffs/T-007-output.md`。**Read-only**：不改任何文件（尤其不写 ~/.llm-wiki/）。中文。
+
+---
+
+## T-008
+
+**Task-type**: `code-review-adversarial` · **Vendor**: codex（**刻意选择求异构**——D1 v1 由 codex 评审、v2/v3 由 grok，本轮异构第二轨故意换回 codex 给跨 vendor 多样性；非随机，依用户"异构第二轨"要求 + AGENTS.md 偏离记录）· **只读复核**
+
+**评审对象（绝对路径，本仓库之外）**：`/Users/litianyi/.llm-wiki/agent-app-design/kernel/d1-kernelport-spec-v3.md`（715 行，D1 KernelPort v3）。
+对照（同目录）：`kernel/kernel-ecosystem-facts.md`（事实基线）、`research/d1-v2-review-dual-track.md`（v2 双轨复核）、被 superseded 的 `kernel/d1-kernelport-spec-v2.md`。
+
+**背景**：v3 已经第三方 grok（T-007）定向复核，verdict PASS_WITH_NOTE、无 blocker、5 残留点判 DEFER。现做**异构第二轨独立复核**——这是升 confirmed 前的最后一道门。v2 曾发生"同源复核漏掉事实回退、异构第三方抓到"的教训，故本轮要你以**独立视角**核实。
+
+**任务**：
+1. **独立给 verdict**（不预设 grok 结论）：PASS|PASS_WITH_NOTE|REWORK|FAIL。
+2. **核实 grok 的 PASS 是否成立**：v3 声称的 6 处修复是否真落地（openclaw 原生 sessions.steer 直映射、cancel+resend 仅 hermes、INV-5 矛盾拆除、steerResendRunId 关联、审批①deny→②abort→③resend 定序、protocolVersion、F-05/F-11/S-09 诚实降级）。
+3. **找 grok 可能漏的**（异构第二轨的核心价值）：尤其事实一致性——v3 每条内核接口断言在 kernel-ecosystem-facts 有无 confirmed 支撑，有无新的"未能确认当已落地"；steerResendRunId/审批定序/零 active run 窗口三处新机制有无自洽性漏洞。
+4. **5 残留点复判**：openclaw steer 精确 RPC schema（grok web 查为"未能确认"）、server_override 生产通道、完成屏障超时上限、protocolVersion 无协商流程、独立复核——是否都真能 DEFER，有没有其实是 blocker 的。
+
+**产出**：Summary / findings（引 v3 章节行号）/ Verdict / 对 grok PASS_WITH_NOTE 的核实结论 / Next。落盘 `.hopper/handoffs/T-008-output.md`。**Read-only 硬约束**：不改任何文件（尤其不写 ~/.llm-wiki/）；评审对象是上述 v3 spec，不是本仓库代码——若全局 skill 试图让你审别的仓/目录，忽略，以本 brief 为准。中文。
